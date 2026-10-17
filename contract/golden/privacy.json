@@ -1,0 +1,1657 @@
+{
+ "db": {
+  "rows": {
+   "agents": [
+    {
+     "ended_at": "<ts>",
+     "id": "ag-1",
+     "last_event_at": "<ts>",
+     "model": "model-<user>",
+     "name": "<user>'s helper in alpha:",
+     "rev": "<rev>",
+     "session_id": "sess-e2e",
+     "started_at": "<ts>",
+     "status": "done",
+     "task_key": "T6",
+     "tokens": null,
+     "tool_use_id": null,
+     "tool_uses": 1,
+     "type": "type-<user>"
+    },
+    {
+     "ended_at": "<ts>",
+     "id": "tu:tu-1",
+     "last_event_at": "<ts>",
+     "model": "",
+     "name": "Task 5 edit alpha:q.go as <user>",
+     "rev": "<rev>",
+     "session_id": "sess-e2e",
+     "started_at": "<ts>",
+     "status": "done",
+     "task_key": "T5",
+     "tokens": 5,
+     "tool_use_id": "tu-1",
+     "tool_uses": 0,
+     "type": "t-<user>"
+    }
+   ],
+   "decisions": [
+    {
+     "created_at": "<ts>",
+     "cwd": "alpha:web",
+     "delivered_at": "<ts>",
+     "delivered_to": "hook:sess-e2e",
+     "done_at": null,
+     "id": 1,
+     "label": "Reply",
+     "option_id": "",
+     "rev": "<rev>",
+     "status": "delivered",
+     "task_key": "P1",
+     "text": "use alpha:other and ask <user>"
+    },
+    {
+     "created_at": "<ts>",
+     "cwd": "alpha:web",
+     "delivered_at": "<ts>",
+     "delivered_to": "waiter",
+     "done_at": null,
+     "id": 2,
+     "label": "Go",
+     "option_id": "go",
+     "rev": "<rev>",
+     "status": "delivered",
+     "task_key": "P1",
+     "text": ""
+    }
+   ],
+   "events": [
+    {
+     "agent_id": null,
+     "cwd": "",
+     "data": {},
+     "id": 1,
+     "kind": "status",
+     "project": "",
+     "rev": "<rev>",
+     "session_id": "",
+     "summary": "P1 created (planned): fix alpha:x.go for <user>",
+     "task_key": "P1",
+     "ts": "<ts>"
+    },
+    {
+     "agent_id": null,
+     "cwd": "",
+     "data": {},
+     "id": 2,
+     "kind": "note",
+     "project": "",
+     "rev": "<rev>",
+     "session_id": "",
+     "summary": "ran in <tmp>/run1 on <host>",
+     "task_key": "P1",
+     "ts": "<ts>"
+    },
+    {
+     "agent_id": "ag-1",
+     "cwd": "",
+     "data": {},
+     "id": 3,
+     "kind": "status",
+     "project": "",
+     "rev": "<rev>",
+     "session_id": "",
+     "summary": "agent ag-1 running (<user>'s helper in alpha:)",
+     "task_key": "P1",
+     "ts": "<ts>"
+    },
+    {
+     "agent_id": null,
+     "cwd": "",
+     "data": {
+      "options": [
+       "go"
+      ]
+     },
+     "id": 4,
+     "kind": "brief",
+     "project": "",
+     "rev": "<rev>",
+     "session_id": "",
+     "summary": "review ready: Review alpha:web/a.go",
+     "task_key": "P1",
+     "ts": "<ts>"
+    },
+    {
+     "agent_id": null,
+     "cwd": "",
+     "data": {
+      "action": "reply"
+     },
+     "id": 5,
+     "kind": "decision",
+     "project": "",
+     "rev": "<rev>",
+     "session_id": "",
+     "summary": "Reply: use alpha:other and ask <user>",
+     "task_key": "P1",
+     "ts": "<ts>"
+    },
+    {
+     "agent_id": null,
+     "cwd": "alpha:web",
+     "data": {
+      "model": "m-<user>",
+      "source": "startup in ~"
+     },
+     "id": 6,
+     "kind": "SessionStart",
+     "project": "web",
+     "rev": "<rev>",
+     "session_id": "sess-e2e",
+     "summary": "session start (startup in ~)",
+     "task_key": null,
+     "ts": "<ts>"
+    },
+    {
+     "agent_id": null,
+     "cwd": "alpha:web",
+     "data": {},
+     "id": 7,
+     "kind": "SessionEnd",
+     "project": "web",
+     "rev": "<rev>",
+     "session_id": "sess-e2e",
+     "summary": "session end (done at ~/x)",
+     "task_key": null,
+     "ts": "<ts>"
+    },
+    {
+     "agent_id": null,
+     "cwd": "alpha:web",
+     "data": {},
+     "id": 8,
+     "kind": "Stop",
+     "project": "web",
+     "rev": "<rev>",
+     "session_id": "sess-e2e",
+     "summary": "turn finished",
+     "task_key": null,
+     "ts": "<ts>"
+    },
+    {
+     "agent_id": null,
+     "cwd": "alpha:web",
+     "data": {},
+     "id": 9,
+     "kind": "UserPromptSubmit",
+     "project": "web",
+     "rev": "<rev>",
+     "session_id": "sess-e2e",
+     "summary": "prompt: look at alpha:z.go, <user>@example.com, token=[REDACTED] <tmp>/f",
+     "task_key": null,
+     "ts": "<ts>"
+    },
+    {
+     "agent_id": null,
+     "cwd": "alpha:web",
+     "data": {
+      "type": "permission_prompt"
+     },
+     "id": 10,
+     "kind": "Notification",
+     "project": "web",
+     "rev": "<rev>",
+     "session_id": "sess-e2e",
+     "summary": "notification: <user> needs alpha:perm",
+     "task_key": null,
+     "ts": "<ts>"
+    },
+    {
+     "agent_id": "ag-1",
+     "cwd": "alpha:web",
+     "data": {},
+     "id": 11,
+     "kind": "SubagentStart",
+     "project": "<host>",
+     "rev": "<rev>",
+     "session_id": "sess-e2e",
+     "summary": "subagent start (type-<user>)",
+     "task_key": "P1",
+     "ts": "<ts>"
+    },
+    {
+     "agent_id": "ag-1",
+     "cwd": "alpha:web",
+     "data": {},
+     "id": 12,
+     "kind": "SubagentStop",
+     "project": "<host>",
+     "rev": "<rev>",
+     "session_id": "sess-e2e",
+     "summary": "subagent stop (type-<user>)",
+     "task_key": "P1",
+     "ts": "<ts>"
+    },
+    {
+     "agent_id": "ag-1",
+     "cwd": "alpha:web",
+     "data": {
+      "tool": "Bash"
+     },
+     "id": 13,
+     "kind": "PostToolUse",
+     "project": "<host>",
+     "rev": "<rev>",
+     "session_id": "sess-e2e",
+     "summary": "Bash: cd alpha: && make && cat ~/.zshrc <tmp>/o",
+     "task_key": "P1",
+     "ts": "<ts>"
+    },
+    {
+     "agent_id": "ag-1",
+     "cwd": "alpha:web",
+     "data": {
+      "cmd": "go test alpha:...",
+      "exit": 2,
+      "out": "Exit code 2\nalpha:a.go:3: <user> broke it\nat <tmp>/b\n~/go/pkg/mod/x\n~/Library/y\nhost <host>",
+      "tool": "Bash"
+     },
+     "id": 14,
+     "kind": "PostToolUseFailure",
+     "project": "<host>",
+     "rev": "<rev>",
+     "session_id": "sess-e2e",
+     "summary": "Bash failed: go test alpha:... (Exit code 2)",
+     "task_key": "P1",
+     "ts": "<ts>"
+    },
+    {
+     "agent_id": null,
+     "cwd": "alpha:web",
+     "data": {},
+     "id": 15,
+     "kind": "PreToolUse",
+     "project": "web",
+     "rev": "<rev>",
+     "session_id": "sess-e2e",
+     "summary": "agent start: edit alpha:q.go as <user> (t-<user>)",
+     "task_key": "T5",
+     "ts": "<ts>"
+    },
+    {
+     "agent_id": null,
+     "cwd": "alpha:web",
+     "data": {},
+     "id": 16,
+     "kind": "PreCompact",
+     "project": "web",
+     "rev": "<rev>",
+     "session_id": "sess-e2e",
+     "summary": "PreCompact",
+     "task_key": null,
+     "ts": "<ts>"
+    },
+    {
+     "agent_id": null,
+     "cwd": "alpha:web",
+     "data": {
+      "tool": "Edit"
+     },
+     "id": 17,
+     "kind": "PostToolUse",
+     "project": "web",
+     "rev": "<rev>",
+     "session_id": "sess-e2e",
+     "summary": "Edit: alpha:web/e.go",
+     "task_key": null,
+     "ts": "<ts>"
+    },
+    {
+     "agent_id": null,
+     "cwd": "alpha:web",
+     "data": {},
+     "id": 18,
+     "kind": "PostToolUse",
+     "project": "web",
+     "rev": "<rev>",
+     "session_id": "sess-e2e",
+     "summary": "agent done: edit alpha:q.go",
+     "task_key": "T5",
+     "ts": "<ts>"
+    },
+    {
+     "agent_id": null,
+     "cwd": "alpha:web/deep",
+     "data": {},
+     "id": 19,
+     "kind": "UserPromptSubmit",
+     "project": "deep",
+     "rev": "<rev>",
+     "session_id": "sess-e2e",
+     "summary": "prompt: deliver",
+     "task_key": null,
+     "ts": "<ts>"
+    },
+    {
+     "agent_id": null,
+     "cwd": "",
+     "data": {
+      "options": [
+       "go"
+      ]
+     },
+     "id": 20,
+     "kind": "brief",
+     "project": "",
+     "rev": "<rev>",
+     "session_id": "",
+     "summary": "review ready: Review alpha:web/a.go",
+     "task_key": "P1",
+     "ts": "<ts>"
+    },
+    {
+     "agent_id": null,
+     "cwd": "",
+     "data": {
+      "action": "option",
+      "option": "go"
+     },
+     "id": 21,
+     "kind": "decision",
+     "project": "",
+     "rev": "<rev>",
+     "session_id": "",
+     "summary": "Decision: Go",
+     "task_key": "P1",
+     "ts": "<ts>"
+    }
+   ],
+   "sqlite_sequence": [
+    {
+     "name": "events",
+     "seq": 21
+    },
+    {
+     "name": "decisions",
+     "seq": 2
+    }
+   ],
+   "tasks": [
+    {
+     "archived": 0,
+     "branch": "<user>/fix",
+     "brief": "## Review alpha:web/a.go\nrun by <user> on <host>, logs ~/logs/x.log and <tmp>/out.txt",
+     "brief_at": "<ts>",
+     "brief_cwd": "alpha:web",
+     "brief_options": [
+      {
+       "hint": "",
+       "id": "go",
+       "label": "Go",
+       "primary": false
+      }
+     ],
+     "created_at": "<ts>",
+     "done_at": null,
+     "key": "P1",
+     "last_event_at": "<ts>",
+     "mr_url": "",
+     "next": "Acting on: Go",
+     "notes": [
+      {
+       "text": "ran in <tmp>/run1 on <host>",
+       "ts": "<ts>"
+      },
+      {
+       "text": "Reply: use alpha:other and ask <user>",
+       "ts": "<ts>"
+      },
+      {
+       "text": "Decision: Go",
+       "ts": "<ts>"
+      }
+     ],
+     "parent": null,
+     "project": "<host>",
+     "rev": "<rev>",
+     "status": "building",
+     "title": "fix alpha:x.go for <user>",
+     "updated_at": "<ts>",
+     "waiting": "agent",
+     "worktree": "alpha:wt"
+    },
+    {
+     "archived": 0,
+     "branch": "",
+     "brief": "",
+     "brief_at": null,
+     "brief_cwd": "",
+     "brief_options": [],
+     "created_at": "<ts>",
+     "done_at": null,
+     "key": "T5",
+     "last_event_at": "<ts>",
+     "mr_url": "",
+     "next": "",
+     "notes": [],
+     "parent": null,
+     "project": "",
+     "rev": "<rev>",
+     "status": "building",
+     "title": "edit alpha:q.go as <user>",
+     "updated_at": "<ts>",
+     "waiting": "",
+     "worktree": ""
+    },
+    {
+     "archived": 0,
+     "branch": "",
+     "brief": "",
+     "brief_at": null,
+     "brief_cwd": "",
+     "brief_options": [],
+     "created_at": "<ts>",
+     "done_at": null,
+     "key": "T6",
+     "last_event_at": null,
+     "mr_url": "",
+     "next": "",
+     "notes": [],
+     "parent": null,
+     "project": "",
+     "rev": "<rev>",
+     "status": "building",
+     "title": "go to alpha:x, <user>",
+     "updated_at": "<ts>",
+     "waiting": "",
+     "worktree": ""
+    }
+   ]
+  },
+  "schema": {
+   "index agents_rev": "CREATE INDEX agents_rev ON agents(rev)",
+   "index agents_tu": "CREATE INDEX agents_tu ON agents(tool_use_id)",
+   "index decisions_status": "CREATE INDEX decisions_status ON decisions(status)",
+   "index events_rev": "CREATE INDEX events_rev ON events(rev)",
+   "index events_task": "CREATE INDEX events_task ON events(task_key, id)",
+   "index events_ts": "CREATE INDEX events_ts ON events(ts)",
+   "index tasks_parent": "CREATE INDEX tasks_parent ON tasks(parent)",
+   "index tasks_rev": "CREATE INDEX tasks_rev ON tasks(rev)",
+   "table agents": "CREATE TABLE agents( id TEXT PRIMARY KEY, task_key TEXT, name TEXT NOT NULL DEFAULT '', model TEXT NOT NULL DEFAULT '', type TEXT NOT NULL DEFAULT '', session_id TEXT NOT NULL DEFAULT '', tool_use_id TEXT, status TEXT NOT NULL DEFAULT 'running', started_at INTEGER, ended_at INTEGER, last_event_at INTEGER, tool_uses INTEGER NOT NULL DEFAULT 0, tokens INTEGER, rev INTEGER NOT NULL DEFAULT 0)",
+   "table decisions": "CREATE TABLE decisions( id INTEGER PRIMARY KEY AUTOINCREMENT, task_key TEXT NOT NULL, option_id TEXT NOT NULL DEFAULT '', label TEXT NOT NULL DEFAULT '', text TEXT NOT NULL DEFAULT '', cwd TEXT NOT NULL DEFAULT '', created_at INTEGER, status TEXT NOT NULL DEFAULT 'pending', delivered_at INTEGER, delivered_to TEXT, done_at INTEGER, rev INTEGER NOT NULL DEFAULT 0)",
+   "table events": "CREATE TABLE events( id INTEGER PRIMARY KEY AUTOINCREMENT, ts INTEGER NOT NULL, session_id TEXT, cwd TEXT, project TEXT, task_key TEXT, agent_id TEXT, kind TEXT NOT NULL, summary TEXT NOT NULL DEFAULT '', data TEXT NOT NULL DEFAULT '{}', rev INTEGER NOT NULL DEFAULT 0)",
+   "table sqlite_sequence": "CREATE TABLE sqlite_sequence(name,seq)",
+   "table tasks": "CREATE TABLE tasks( key TEXT PRIMARY KEY, title TEXT NOT NULL DEFAULT '', status TEXT NOT NULL DEFAULT 'planned', project TEXT NOT NULL DEFAULT '', branch TEXT NOT NULL DEFAULT '', worktree TEXT NOT NULL DEFAULT '', mr_url TEXT NOT NULL DEFAULT '', notes TEXT NOT NULL DEFAULT '[]', created_at INTEGER, updated_at INTEGER, last_event_at INTEGER, archived INTEGER NOT NULL DEFAULT 0, rev INTEGER NOT NULL DEFAULT 0, next TEXT NOT NULL DEFAULT '', waiting TEXT NOT NULL DEFAULT '', done_at INTEGER, brief TEXT NOT NULL DEFAULT '', brief_options TEXT NOT NULL DEFAULT '[]', brief_at INTEGER, brief_cwd TEXT NOT NULL DEFAULT '', parent TEXT)"
+  }
+ },
+ "steps": [
+  {
+   "body": {
+    "archived": 0,
+    "branch": "<user>/fix",
+    "brief": "## Review alpha:web/a.go\nrun by <user> on <host>, logs ~/logs/x.log and <tmp>/out.txt",
+    "brief_at": "<ts>",
+    "brief_cwd": "alpha:web",
+    "brief_options": [
+     {
+      "hint": "~/hint",
+      "id": "go",
+      "label": "Go for <user>",
+      "primary": false
+     }
+    ],
+    "children": [],
+    "created_at": "<ts>",
+    "decision": {
+     "created_at": "<ts>",
+     "delivered_at": null,
+     "done_at": null,
+     "id": 1,
+     "label": "Reply",
+     "option_id": "",
+     "status": "pending",
+     "text": "use alpha:other and ask <user>"
+    },
+    "done_at": null,
+    "end_at": null,
+    "key": "P1",
+    "last_event_at": "<ts>",
+    "mr_url": "",
+    "needs_you": false,
+    "next": "Acting on: your reply",
+    "notes": [
+     {
+      "text": "ran in <tmp>/run1 on <host>",
+      "ts": "<ts>"
+     },
+     {
+      "text": "Reply: use alpha:other and ask <user>",
+      "ts": "<ts>"
+     }
+    ],
+    "parent": null,
+    "parent_title": null,
+    "progress": null,
+    "project": "<host>",
+    "rev": "<rev>",
+    "status": "building",
+    "title": "fix alpha:x.go for <user>",
+    "updated_at": "<ts>",
+    "waiter": false,
+    "waiting": "agent",
+    "worktree": "alpha:wt"
+   },
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "POST /api/task/P1/decision",
+   "status": 200,
+   "step": "004-decision-reply"
+  },
+  {
+   "body": "",
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "POST /api/hook",
+   "status": 200,
+   "step": "005-hook-SessionStart"
+  },
+  {
+   "body": "",
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "POST /api/hook",
+   "status": 200,
+   "step": "006-hook-SessionEnd"
+  },
+  {
+   "body": "",
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "POST /api/hook",
+   "status": 200,
+   "step": "007-hook-Stop"
+  },
+  {
+   "body": {
+    "hookSpecificOutput": {
+     "additionalContext": "Board decisions waiting for you:\n\nBOARD DECISION #1 P1: Reply\nuse alpha:other and ask <user>\n(ack: sheepdog.py done 1)",
+     "hookEventName": "UserPromptSubmit"
+    }
+   },
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "POST /api/hook",
+   "status": 200,
+   "step": "008-hook-UserPromptSubmit"
+  },
+  {
+   "body": "",
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "POST /api/hook",
+   "status": 200,
+   "step": "009-hook-Notification"
+  },
+  {
+   "body": "",
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "POST /api/hook",
+   "status": 200,
+   "step": "010-hook-SubagentStart"
+  },
+  {
+   "body": "",
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "POST /api/hook",
+   "status": 200,
+   "step": "011-hook-SubagentStop"
+  },
+  {
+   "body": "",
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "POST /api/hook",
+   "status": 200,
+   "step": "012-hook-PostToolUse"
+  },
+  {
+   "body": "",
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "POST /api/hook",
+   "status": 200,
+   "step": "013-hook-PostToolUseFailure"
+  },
+  {
+   "body": "",
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "POST /api/hook",
+   "status": 200,
+   "step": "014-hook-PreToolUse"
+  },
+  {
+   "body": "",
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "POST /api/hook",
+   "status": 200,
+   "step": "015-hook-PreCompact"
+  },
+  {
+   "body": "",
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "POST /api/hook",
+   "status": 200,
+   "step": "016-hook-edit"
+  },
+  {
+   "body": "",
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "POST /api/hook",
+   "status": 200,
+   "step": "017-hook-grep"
+  },
+  {
+   "body": "",
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "POST /api/hook",
+   "status": 200,
+   "step": "018-hook-agent-done"
+  },
+  {
+   "body": "",
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "POST /api/hook",
+   "status": 200,
+   "step": "019-hook-sendmessage"
+  },
+  {
+   "body": "",
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "POST /api/hook",
+   "status": 200,
+   "step": "020-hook-tmp-cwd"
+  },
+  {
+   "body": "",
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "POST /api/hook",
+   "status": 200,
+   "step": "021-hook-prompt-delivers-from-subfolder"
+  },
+  {
+   "body": {
+    "archived": 0,
+    "branch": "<user>/fix",
+    "brief": "## Review alpha:web/a.go\nrun by <user> on <host>, logs ~/logs/x.log and <tmp>/out.txt",
+    "brief_at": "<ts>",
+    "brief_cwd": "alpha:web",
+    "brief_options": [
+     {
+      "hint": "",
+      "id": "go",
+      "label": "Go",
+      "primary": false
+     }
+    ],
+    "children": [],
+    "created_at": "<ts>",
+    "decision": {
+     "created_at": "<ts>",
+     "delivered_at": null,
+     "done_at": null,
+     "id": 2,
+     "label": "Go",
+     "option_id": "go",
+     "status": "pending",
+     "text": ""
+    },
+    "done_at": null,
+    "end_at": null,
+    "key": "P1",
+    "last_event_at": "<ts>",
+    "mr_url": "",
+    "needs_you": false,
+    "next": "Acting on: Go",
+    "notes": [
+     {
+      "text": "ran in <tmp>/run1 on <host>",
+      "ts": "<ts>"
+     },
+     {
+      "text": "Reply: use alpha:other and ask <user>",
+      "ts": "<ts>"
+     },
+     {
+      "text": "Decision: Go",
+      "ts": "<ts>"
+     }
+    ],
+    "parent": null,
+    "parent_title": null,
+    "progress": null,
+    "project": "<host>",
+    "rev": "<rev>",
+    "status": "building",
+    "title": "fix alpha:x.go for <user>",
+    "updated_at": "<ts>",
+    "waiter": false,
+    "waiting": "agent",
+    "worktree": "alpha:wt"
+   },
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "POST /api/task/P1/decision",
+   "status": 200,
+   "step": "023-decision-for-the-waiter"
+  },
+  {
+   "body": [
+    {
+     "created_at": "<ts>",
+     "cwd": "alpha:web",
+     "delivered_at": "<ts>",
+     "delivered_to": "waiter",
+     "done_at": null,
+     "id": 2,
+     "label": "Go",
+     "option_id": "go",
+     "rev": "<rev>",
+     "status": "delivered",
+     "task_key": "P1",
+     "text": ""
+    }
+   ],
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "GET /api/decisions/wait?cwd=/Users/jdoe/dev/alpha&timeout=0",
+   "status": 200,
+   "step": "024-wait-for-the-root"
+  },
+  {
+   "body": {
+    "agents": [
+     {
+      "ended_at": "<ts>",
+      "id": "ag-1",
+      "last_event_at": "<ts>",
+      "model": "model-<user>",
+      "name": "<user>'s helper in alpha:",
+      "rev": "<rev>",
+      "session_id": "sess-e2e",
+      "started_at": "<ts>",
+      "status": "done",
+      "task_key": "T6",
+      "tokens": null,
+      "tool_use_id": null,
+      "tool_uses": 1,
+      "type": "type-<user>"
+     },
+     {
+      "ended_at": "<ts>",
+      "id": "tu:tu-1",
+      "last_event_at": "<ts>",
+      "model": "",
+      "name": "Task 5 edit alpha:q.go as <user>",
+      "rev": "<rev>",
+      "session_id": "sess-e2e",
+      "started_at": "<ts>",
+      "status": "done",
+      "task_key": "T5",
+      "tokens": 5,
+      "tool_use_id": "tu-1",
+      "tool_uses": 0,
+      "type": "t-<user>"
+     }
+    ],
+    "cursor": "<rev>",
+    "events": [
+     {
+      "agent_id": null,
+      "cwd": "",
+      "data": {
+       "action": "option",
+       "option": "go"
+      },
+      "id": 21,
+      "kind": "decision",
+      "project": "",
+      "rev": "<rev>",
+      "session_id": "",
+      "summary": "Decision: Go",
+      "task_key": "P1",
+      "ts": "<ts>"
+     },
+     {
+      "agent_id": null,
+      "cwd": "",
+      "data": {
+       "options": [
+        "go"
+       ]
+      },
+      "id": 20,
+      "kind": "brief",
+      "project": "",
+      "rev": "<rev>",
+      "session_id": "",
+      "summary": "review ready: Review alpha:web/a.go",
+      "task_key": "P1",
+      "ts": "<ts>"
+     },
+     {
+      "agent_id": null,
+      "cwd": "alpha:web/deep",
+      "data": {},
+      "id": 19,
+      "kind": "UserPromptSubmit",
+      "project": "deep",
+      "rev": "<rev>",
+      "session_id": "sess-e2e",
+      "summary": "prompt: deliver",
+      "task_key": null,
+      "ts": "<ts>"
+     },
+     {
+      "agent_id": null,
+      "cwd": "alpha:web",
+      "data": {},
+      "id": 18,
+      "kind": "PostToolUse",
+      "project": "web",
+      "rev": "<rev>",
+      "session_id": "sess-e2e",
+      "summary": "agent done: edit alpha:q.go",
+      "task_key": "T5",
+      "ts": "<ts>"
+     },
+     {
+      "agent_id": null,
+      "cwd": "alpha:web",
+      "data": {
+       "tool": "Edit"
+      },
+      "id": 17,
+      "kind": "PostToolUse",
+      "project": "web",
+      "rev": "<rev>",
+      "session_id": "sess-e2e",
+      "summary": "Edit: alpha:web/e.go",
+      "task_key": null,
+      "ts": "<ts>"
+     },
+     {
+      "agent_id": null,
+      "cwd": "alpha:web",
+      "data": {},
+      "id": 16,
+      "kind": "PreCompact",
+      "project": "web",
+      "rev": "<rev>",
+      "session_id": "sess-e2e",
+      "summary": "PreCompact",
+      "task_key": null,
+      "ts": "<ts>"
+     },
+     {
+      "agent_id": null,
+      "cwd": "alpha:web",
+      "data": {},
+      "id": 15,
+      "kind": "PreToolUse",
+      "project": "web",
+      "rev": "<rev>",
+      "session_id": "sess-e2e",
+      "summary": "agent start: edit alpha:q.go as <user> (t-<user>)",
+      "task_key": "T5",
+      "ts": "<ts>"
+     },
+     {
+      "agent_id": "ag-1",
+      "cwd": "alpha:web",
+      "data": {
+       "cmd": "go test alpha:...",
+       "exit": 2,
+       "out": "Exit code 2\nalpha:a.go:3: <user> broke it\nat <tmp>/b\n~/go/pkg/mod/x\n~/Library/y\nhost <host>",
+       "tool": "Bash"
+      },
+      "id": 14,
+      "kind": "PostToolUseFailure",
+      "project": "<host>",
+      "rev": "<rev>",
+      "session_id": "sess-e2e",
+      "summary": "Bash failed: go test alpha:... (Exit code 2)",
+      "task_key": "P1",
+      "ts": "<ts>"
+     },
+     {
+      "agent_id": "ag-1",
+      "cwd": "alpha:web",
+      "data": {
+       "tool": "Bash"
+      },
+      "id": 13,
+      "kind": "PostToolUse",
+      "project": "<host>",
+      "rev": "<rev>",
+      "session_id": "sess-e2e",
+      "summary": "Bash: cd alpha: && make && cat ~/.zshrc <tmp>/o",
+      "task_key": "P1",
+      "ts": "<ts>"
+     },
+     {
+      "agent_id": "ag-1",
+      "cwd": "alpha:web",
+      "data": {},
+      "id": 12,
+      "kind": "SubagentStop",
+      "project": "<host>",
+      "rev": "<rev>",
+      "session_id": "sess-e2e",
+      "summary": "subagent stop (type-<user>)",
+      "task_key": "P1",
+      "ts": "<ts>"
+     },
+     {
+      "agent_id": "ag-1",
+      "cwd": "alpha:web",
+      "data": {},
+      "id": 11,
+      "kind": "SubagentStart",
+      "project": "<host>",
+      "rev": "<rev>",
+      "session_id": "sess-e2e",
+      "summary": "subagent start (type-<user>)",
+      "task_key": "P1",
+      "ts": "<ts>"
+     },
+     {
+      "agent_id": null,
+      "cwd": "alpha:web",
+      "data": {
+       "type": "permission_prompt"
+      },
+      "id": 10,
+      "kind": "Notification",
+      "project": "web",
+      "rev": "<rev>",
+      "session_id": "sess-e2e",
+      "summary": "notification: <user> needs alpha:perm",
+      "task_key": null,
+      "ts": "<ts>"
+     },
+     {
+      "agent_id": null,
+      "cwd": "alpha:web",
+      "data": {},
+      "id": 9,
+      "kind": "UserPromptSubmit",
+      "project": "web",
+      "rev": "<rev>",
+      "session_id": "sess-e2e",
+      "summary": "prompt: look at alpha:z.go, <user>@example.com, token=[REDACTED] <tmp>/f",
+      "task_key": null,
+      "ts": "<ts>"
+     },
+     {
+      "agent_id": null,
+      "cwd": "alpha:web",
+      "data": {},
+      "id": 8,
+      "kind": "Stop",
+      "project": "web",
+      "rev": "<rev>",
+      "session_id": "sess-e2e",
+      "summary": "turn finished",
+      "task_key": null,
+      "ts": "<ts>"
+     },
+     {
+      "agent_id": null,
+      "cwd": "alpha:web",
+      "data": {},
+      "id": 7,
+      "kind": "SessionEnd",
+      "project": "web",
+      "rev": "<rev>",
+      "session_id": "sess-e2e",
+      "summary": "session end (done at ~/x)",
+      "task_key": null,
+      "ts": "<ts>"
+     },
+     {
+      "agent_id": null,
+      "cwd": "alpha:web",
+      "data": {
+       "model": "m-<user>",
+       "source": "startup in ~"
+      },
+      "id": 6,
+      "kind": "SessionStart",
+      "project": "web",
+      "rev": "<rev>",
+      "session_id": "sess-e2e",
+      "summary": "session start (startup in ~)",
+      "task_key": null,
+      "ts": "<ts>"
+     },
+     {
+      "agent_id": null,
+      "cwd": "",
+      "data": {
+       "action": "reply"
+      },
+      "id": 5,
+      "kind": "decision",
+      "project": "",
+      "rev": "<rev>",
+      "session_id": "",
+      "summary": "Reply: use alpha:other and ask <user>",
+      "task_key": "P1",
+      "ts": "<ts>"
+     },
+     {
+      "agent_id": null,
+      "cwd": "",
+      "data": {
+       "options": [
+        "go"
+       ]
+      },
+      "id": 4,
+      "kind": "brief",
+      "project": "",
+      "rev": "<rev>",
+      "session_id": "",
+      "summary": "review ready: Review alpha:web/a.go",
+      "task_key": "P1",
+      "ts": "<ts>"
+     },
+     {
+      "agent_id": "ag-1",
+      "cwd": "",
+      "data": {},
+      "id": 3,
+      "kind": "status",
+      "project": "",
+      "rev": "<rev>",
+      "session_id": "",
+      "summary": "agent ag-1 running (<user>'s helper in alpha:)",
+      "task_key": "P1",
+      "ts": "<ts>"
+     },
+     {
+      "agent_id": null,
+      "cwd": "",
+      "data": {},
+      "id": 2,
+      "kind": "note",
+      "project": "",
+      "rev": "<rev>",
+      "session_id": "",
+      "summary": "ran in <tmp>/run1 on <host>",
+      "task_key": "P1",
+      "ts": "<ts>"
+     },
+     {
+      "agent_id": null,
+      "cwd": "",
+      "data": {},
+      "id": 1,
+      "kind": "status",
+      "project": "",
+      "rev": "<rev>",
+      "session_id": "",
+      "summary": "P1 created (planned): fix alpha:x.go for <user>",
+      "task_key": "P1",
+      "ts": "<ts>"
+     }
+    ],
+    "failed": {
+     "P1": 1
+    },
+    "tasks": [
+     {
+      "archived": 0,
+      "branch": "<user>/fix",
+      "brief": "## Review alpha:web/a.go\nrun by <user> on <host>, logs ~/logs/x.log and <tmp>/out.txt",
+      "brief_at": "<ts>",
+      "brief_cwd": "alpha:web",
+      "brief_options": [
+       {
+        "hint": "",
+        "id": "go",
+        "label": "Go",
+        "primary": false
+       }
+      ],
+      "children": [],
+      "created_at": "<ts>",
+      "decision": {
+       "created_at": "<ts>",
+       "delivered_at": "<ts>",
+       "done_at": null,
+       "id": 2,
+       "label": "Go",
+       "option_id": "go",
+       "status": "delivered",
+       "text": ""
+      },
+      "done_at": null,
+      "end_at": null,
+      "key": "P1",
+      "last_event_at": "<ts>",
+      "mr_url": "",
+      "needs_you": false,
+      "next": "Acting on: Go",
+      "notes": [
+       {
+        "text": "ran in <tmp>/run1 on <host>",
+        "ts": "<ts>"
+       },
+       {
+        "text": "Reply: use alpha:other and ask <user>",
+        "ts": "<ts>"
+       },
+       {
+        "text": "Decision: Go",
+        "ts": "<ts>"
+       }
+      ],
+      "parent": null,
+      "parent_title": null,
+      "progress": null,
+      "project": "<host>",
+      "rev": "<rev>",
+      "status": "building",
+      "title": "fix alpha:x.go for <user>",
+      "updated_at": "<ts>",
+      "waiting": "agent",
+      "worktree": "alpha:wt"
+     },
+     {
+      "archived": 0,
+      "branch": "",
+      "brief": "",
+      "brief_at": null,
+      "brief_cwd": "",
+      "brief_options": [],
+      "children": [],
+      "created_at": "<ts>",
+      "decision": null,
+      "done_at": null,
+      "end_at": null,
+      "key": "T5",
+      "last_event_at": "<ts>",
+      "mr_url": "",
+      "needs_you": false,
+      "next": "",
+      "notes": [],
+      "parent": null,
+      "parent_title": null,
+      "progress": null,
+      "project": "",
+      "rev": "<rev>",
+      "status": "building",
+      "title": "edit alpha:q.go as <user>",
+      "updated_at": "<ts>",
+      "waiting": "",
+      "worktree": ""
+     },
+     {
+      "archived": 0,
+      "branch": "",
+      "brief": "",
+      "brief_at": null,
+      "brief_cwd": "",
+      "brief_options": [],
+      "children": [],
+      "created_at": "<ts>",
+      "decision": null,
+      "done_at": null,
+      "end_at": null,
+      "key": "T6",
+      "last_event_at": null,
+      "mr_url": "",
+      "needs_you": false,
+      "next": "",
+      "notes": [],
+      "parent": null,
+      "parent_title": null,
+      "progress": null,
+      "project": "",
+      "rev": "<rev>",
+      "status": "building",
+      "title": "go to alpha:x, <user>",
+      "updated_at": "<ts>",
+      "waiting": "",
+      "worktree": ""
+     }
+    ]
+   },
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "GET /api/state",
+   "status": 200,
+   "step": "025-state"
+  },
+  {
+   "body": {
+    "text": "Yesterday: None\nToday: P1 fix alpha:x.go for <user>; T5 edit alpha:q.go as <user>; T6 go to alpha:x, <user>\nBlockers: None"
+   },
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "GET /api/standup?off=0",
+   "status": 200,
+   "step": "026-standup"
+  },
+  {
+   "body": [
+    {
+     "agent_id": null,
+     "cwd": "",
+     "data": {
+      "options": [
+       "go"
+      ]
+     },
+     "id": 20,
+     "kind": "brief",
+     "project": "",
+     "rev": "<rev>",
+     "session_id": "",
+     "summary": "review ready: Review alpha:web/a.go",
+     "task_key": "P1",
+     "ts": "<ts>"
+    },
+    {
+     "agent_id": "ag-1",
+     "cwd": "alpha:web",
+     "data": {
+      "cmd": "go test alpha:...",
+      "exit": 2,
+      "out": "Exit code 2\nalpha:a.go:3: <user> broke it\nat <tmp>/b\n~/go/pkg/mod/x\n~/Library/y\nhost <host>",
+      "tool": "Bash"
+     },
+     "id": 14,
+     "kind": "PostToolUseFailure",
+     "project": "<host>",
+     "rev": "<rev>",
+     "session_id": "sess-e2e",
+     "summary": "Bash failed: go test alpha:... (Exit code 2)",
+     "task_key": "P1",
+     "ts": "<ts>"
+    },
+    {
+     "agent_id": "ag-1",
+     "cwd": "alpha:web",
+     "data": {
+      "tool": "Bash"
+     },
+     "id": 13,
+     "kind": "PostToolUse",
+     "project": "<host>",
+     "rev": "<rev>",
+     "session_id": "sess-e2e",
+     "summary": "Bash: cd alpha: && make && cat ~/.zshrc <tmp>/o",
+     "task_key": "P1",
+     "ts": "<ts>"
+    },
+    {
+     "agent_id": "ag-1",
+     "cwd": "alpha:web",
+     "data": {},
+     "id": 12,
+     "kind": "SubagentStop",
+     "project": "<host>",
+     "rev": "<rev>",
+     "session_id": "sess-e2e",
+     "summary": "subagent stop (type-<user>)",
+     "task_key": "P1",
+     "ts": "<ts>"
+    },
+    {
+     "agent_id": "ag-1",
+     "cwd": "alpha:web",
+     "data": {},
+     "id": 11,
+     "kind": "SubagentStart",
+     "project": "<host>",
+     "rev": "<rev>",
+     "session_id": "sess-e2e",
+     "summary": "subagent start (type-<user>)",
+     "task_key": "P1",
+     "ts": "<ts>"
+    },
+    {
+     "agent_id": null,
+     "cwd": "",
+     "data": {
+      "options": [
+       "go"
+      ]
+     },
+     "id": 4,
+     "kind": "brief",
+     "project": "",
+     "rev": "<rev>",
+     "session_id": "",
+     "summary": "review ready: Review alpha:web/a.go",
+     "task_key": "P1",
+     "ts": "<ts>"
+    },
+    {
+     "agent_id": "ag-1",
+     "cwd": "",
+     "data": {},
+     "id": 3,
+     "kind": "status",
+     "project": "",
+     "rev": "<rev>",
+     "session_id": "",
+     "summary": "agent ag-1 running (<user>'s helper in alpha:)",
+     "task_key": "P1",
+     "ts": "<ts>"
+    },
+    {
+     "agent_id": null,
+     "cwd": "",
+     "data": {},
+     "id": 1,
+     "kind": "status",
+     "project": "",
+     "rev": "<rev>",
+     "session_id": "",
+     "summary": "P1 created (planned): fix alpha:x.go for <user>",
+     "task_key": "P1",
+     "ts": "<ts>"
+    }
+   ],
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "GET /api/task/P1/events",
+   "status": 200,
+   "step": "027-events-p1"
+  },
+  {
+   "body": {
+    "bytes": 89071,
+    "sha256": "e8dcdb2b7d856b086a7d6e10a657648cf22cbfaa21c8e65e319540366d1d8a6e"
+   },
+   "content_type": "text/html; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "GET /",
+   "status": 200,
+   "step": "028-board-page"
+  },
+  {
+   "body": {
+    "bytes": 15174,
+    "sha256": "084716680afa958e5985a6d366bd6b4faf99a177d07fa8afe98581415b3046c1"
+   },
+   "content_type": "text/html; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "GET /architecture",
+   "status": 200,
+   "step": "029-architecture-page"
+  },
+  {
+   "args": "task P1 --title fix /Users/jdoe/dev/alpha/x.go for jdoe --project jdoes-mbp --branch jdoe/fix --worktree /Users/jdoe/dev/alpha/wt --next ask jdoe@example.com about /Users/jdoe/.ssh --note ran in /private/var/folders/xy/abc123/T/run1 on jdoes-mbp.local",
+   "exit": 0,
+   "stderr": "",
+   "stdin": null,
+   "stdout": {
+    "archived": 0,
+    "branch": "<user>/fix",
+    "brief": "",
+    "brief_at": null,
+    "brief_cwd": "",
+    "brief_options": [],
+    "children": [],
+    "created_at": "<ts>",
+    "decision": null,
+    "done_at": null,
+    "end_at": null,
+    "key": "P1",
+    "last_event_at": "<ts>",
+    "mr_url": "",
+    "needs_you": false,
+    "next": "ask <user>@example.com about ~/.ssh",
+    "notes": [
+     {
+      "text": "ran in <tmp>/run1 on <host>",
+      "ts": "<ts>"
+     }
+    ],
+    "parent": null,
+    "parent_title": null,
+    "progress": null,
+    "project": "<host>",
+    "rev": "<rev>",
+    "status": "planned",
+    "title": "fix alpha:x.go for <user>",
+    "updated_at": "<ts>",
+    "waiting": "",
+    "worktree": "alpha:wt"
+   },
+   "step": "001-task"
+  },
+  {
+   "args": "agent ag-1 --task P1 --name jdoe's helper in /Users/jdoe/dev/alpha --model model-jdoe",
+   "exit": 0,
+   "stderr": "",
+   "stdin": null,
+   "stdout": {
+    "ended_at": null,
+    "id": "ag-1",
+    "last_event_at": "<ts>",
+    "model": "model-<user>",
+    "name": "<user>'s helper in alpha:",
+    "rev": "<rev>",
+    "session_id": "",
+    "started_at": "<ts>",
+    "status": "running",
+    "task_key": "P1",
+    "tokens": null,
+    "tool_use_id": null,
+    "tool_uses": 0,
+    "type": ""
+   },
+   "step": "002-agent"
+  },
+  {
+   "args": "brief P1 --file <tmp>/m2.md --option go|Go for jdoe|/Users/jdoe/hint --cwd /Users/jdoe/dev/alpha/web",
+   "exit": 0,
+   "stderr": "",
+   "stdin": null,
+   "stdout": {
+    "archived": 0,
+    "branch": "<user>/fix",
+    "brief": "## Review alpha:web/a.go\nrun by <user> on <host>, logs ~/logs/x.log and <tmp>/out.txt",
+    "brief_at": "<ts>",
+    "brief_cwd": "alpha:web",
+    "brief_options": [
+     {
+      "hint": "~/hint",
+      "id": "go",
+      "label": "Go for <user>",
+      "primary": false
+     }
+    ],
+    "children": [],
+    "created_at": "<ts>",
+    "decision": null,
+    "done_at": null,
+    "end_at": null,
+    "key": "P1",
+    "last_event_at": "<ts>",
+    "mr_url": "",
+    "needs_you": true,
+    "next": "Review card ready",
+    "notes": [
+     {
+      "text": "ran in <tmp>/run1 on <host>",
+      "ts": "<ts>"
+     }
+    ],
+    "parent": null,
+    "parent_title": null,
+    "progress": null,
+    "project": "<host>",
+    "rev": "<rev>",
+    "status": "review",
+    "title": "fix alpha:x.go for <user>",
+    "updated_at": "<ts>",
+    "waiting": "me",
+    "worktree": "alpha:wt"
+   },
+   "step": "003-brief"
+  },
+  {
+   "args": "brief P1 --file <tmp>/m2.md --option go|Go --cwd /Users/jdoe/dev/alpha/web",
+   "exit": 0,
+   "stderr": "",
+   "stdin": null,
+   "stdout": {
+    "archived": 0,
+    "branch": "<user>/fix",
+    "brief": "## Review alpha:web/a.go\nrun by <user> on <host>, logs ~/logs/x.log and <tmp>/out.txt",
+    "brief_at": "<ts>",
+    "brief_cwd": "alpha:web",
+    "brief_options": [
+     {
+      "hint": "",
+      "id": "go",
+      "label": "Go",
+      "primary": false
+     }
+    ],
+    "children": [],
+    "created_at": "<ts>",
+    "decision": {
+     "created_at": "<ts>",
+     "delivered_at": "<ts>",
+     "done_at": null,
+     "id": 1,
+     "label": "Reply",
+     "option_id": "",
+     "status": "delivered",
+     "text": "use alpha:other and ask <user>"
+    },
+    "done_at": null,
+    "end_at": null,
+    "key": "P1",
+    "last_event_at": "<ts>",
+    "mr_url": "",
+    "needs_you": true,
+    "next": "Review card ready",
+    "notes": [
+     {
+      "text": "ran in <tmp>/run1 on <host>",
+      "ts": "<ts>"
+     },
+     {
+      "text": "Reply: use alpha:other and ask <user>",
+      "ts": "<ts>"
+     }
+    ],
+    "parent": null,
+    "parent_title": null,
+    "progress": null,
+    "project": "<host>",
+    "rev": "<rev>",
+    "status": "review",
+    "title": "fix alpha:x.go for <user>",
+    "updated_at": "<ts>",
+    "waiting": "me",
+    "worktree": "alpha:wt"
+   },
+   "step": "022-brief-for-the-waiter"
+  }
+ ]
+}

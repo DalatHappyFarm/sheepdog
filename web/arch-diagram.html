@@ -1,0 +1,15 @@
+<div class=sv><svg viewBox="0 0 976 440" role=img aria-label="Claude Code sessions post hook events to the board server. The orchestrator CLI posts tasks, agents and review cards. The browser page polls state every 3 seconds and posts decisions. The server stores everything in SQLite and returns decisions to the Claude session, by long-poll or in the reply to the next prompt hook.">
+<title>sheepdog architecture</title>
+<defs><marker id=a viewBox="0 0 10 10" refX=9 refY=5 markerWidth=7 markerHeight=7 orient=auto-start-reverse><path d="M0 0L10 5L0 10z"/></marker></defs>
+<g class=nd><rect x=14 y=44 width=212 height=84 rx=10 /><text class=t x=26 y=72>Claude Code sessions</text><text class=s x=26 y=98>hooks on every event</text>
+<rect x=14 y=214 width=212 height=94 rx=10 /><text class=t x=26 y=242>Orchestrator CLI</text><text class=s x=26 y=268>sheepdog task/brief/done</text><text class=s x=26 y=288>and board.sh</text>
+<rect x=808 y=110 width=156 height=140 rx=10 /><text class=t x=820 y=138>Browser page</text><text class=s x=820 y=164>the board you use</text><text class=s x=820 y=190>Copy standup:</text><text class=s x=820 y=210>/api/standup</text>
+<rect x=420 y=345 width=200 height=90 rx=10 /><text class=t x=432 y=373>SQLite</text><text class=s x=432 y=397>board.db, WAL</text><text class=s x=432 y=417>one writer + read pool</text></g>
+<g class="nd hub"><rect x=420 y=110 width=200 height=140 rx=10 /><text class=t x=432 y=138>Board server</text><text class=s x=432 y=164>bin/sheepdog (Go)</text><text class=s x=432 y=184>net/http, port 8787</text><text class=s x=432 y=204>state cache: rebuilt on a</text><text class=s x=432 y=224>write, or after 2 s</text></g>
+<g class=ed><path d="M226 100L420 140" /><path d="M226 262L420 220" /><path d="M808 220L620 220" /><path class=rw d="M520 250V345" /></g>
+<g class="ed ds"><path d="M808 150L620 150" /><path d="M520 110V26H118V42" /></g>
+<g class=lb><text x=234 y=66>curl POST /api/hook</text><text x=234 y=85>(about 10 ms; server part under 1 ms)</text>
+<text x=234 y=294>/api/task, /api/agent</text><text x=234 y=313>/api/archive</text><text x=234 y=332>/api/task/&lt;k&gt;/brief</text><text x=234 y=351>/api/decision/&lt;id&gt;/done</text>
+<text x=628 y=119>poll /api/state</text><text x=628 y=138>every 3 s</text><text x=628 y=189>click:</text><text x=628 y=208>/api/task/&lt;k&gt;/decision</text>
+<text x=532 y=302>read / write</text>
+<text x=128 y=18>decision: sheepdog wait (long-poll /api/decisions/wait) or the next UserPromptSubmit reply</text></g></svg></div>

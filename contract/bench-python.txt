@@ -1,0 +1,20 @@
+server: python3 sheepdog.py serve   python: 3.14.8   2026-10-17
+measure                             conc     n    p50 ms    p95 ms    p99 ms     req/s errors    resp B
+----------------------------------------------------------------------------------------------------
+fixture hook POST                      1   400       0.4       0.6       1.5      2063      0         0
+fixture hook POST                     16   400       5.7       7.0       7.4      2765      0         0
+fixture hook POST                     64   400      21.2      48.5      53.1      2689      0         0
+fixture GET /api/state                 1   100       1.5       1.7       2.1       674      0     38550
+fixture GET /api/state?since=cursor     1   100       0.5       0.6       0.9      1977      0        85
+fixture GET / (page)                   1   100       0.4       0.4       0.7      2714      0     89082
+fixture server RSS after run       37808 KB
+fixture physical footprint (macOS) 25804 KB
+live copy: 980 KB, rows {'tasks': 49, 'agents': 765, 'events': 2560, 'decisions': 31}
+live-copy hook POST                    1   400       0.5       0.6       0.9      1881      0         0
+live-copy hook POST                   16   400       7.0       8.6       9.3      2192      0         0
+live-copy hook POST                   64   400      27.9      30.3      56.9      2241      0         0
+live-copy GET /api/state               1   100       7.5       8.0      12.1       133      0    330059
+live-copy GET /api/state?since=cursor     1   100       0.7       0.8       1.4      1342      0       157
+live-copy GET / (page)                 1   100       0.4       0.4       0.7      2727      0     89082
+live-copy server RSS after run     40640 KB
+live-copy physical footprint (macOS) 28569 KB

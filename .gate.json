@@ -1,0 +1,10 @@
+{
+  "allow_fakes": ["jdoe2"],
+  "skip": {
+    "email": ["test_sheepdog.py", "internal/server/server_test.go", "internal/store/testdata/redact.json", "design/archive/test_board-linear-2026-10-16.py"],
+    "private-host": ["contract/golden/privacy.json", "contract/rewrite-cases.json", "contract/run.py", "internal/server/server_test.go", "test_sheepdog.py"],
+    "secret-assign": ["contract/golden/http.json", "contract/harness.py", "design/archive/test_board-linear-2026-10-16.py", "internal/server/server_test.go", "internal/store/testdata/redact.json", "test_sheepdog.py"],
+    "temp-path": ["contract/golden/privacy.json", "contract/rewrite-cases.json", "contract/run.py", "internal/server/server_test.go", "internal/store/store_test.go", "test_sheepdog.py"],
+    "gitleaks:*": ["test_sheepdog.py", "internal/server/server_test.go", "internal/store/testdata/redact.json", "design/archive/test_board-linear-2026-10-16.py"]
+  }
+}

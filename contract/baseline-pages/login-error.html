@@ -1,0 +1,19 @@
+<!doctype html><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1">
+<title>sheepdog - sign in</title>
+<link rel=icon type=image/png href=/brand/favicon-32.png>
+<script>(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light')document.documentElement.dataset.theme=t}catch(e){}})()</script>
+<style>:root{color-scheme:light;--bg:#FFFFFF;--ovl:#FFFFFF;--raised:#FFFFFF;--bd:#0B120E24;--bdi:#8C8F97;--tx:#292A2E;--t2:#505258;--mu:#6B6E76;--br:#1868DB;--brh:#1558BC;--brp:#144794;--inv:#FFFFFF;--dnt:#AE2E24;--dng:#C9372C;--fo:#4688EC;--sh2:0 8px 12px #1E1F2126,0 0 1px #1E1F214F}
+[data-theme=dark]{color-scheme:dark;--bg:#1F1F21;--ovl:#2B2C2F;--raised:#242528;--bd:#E3E4F21F;--bdi:#7E8188;--tx:#CECFD2;--t2:#A9ABAF;--mu:#96999E;--br:#669DF1;--brh:#8FB8F6;--brp:#ADCBFB;--inv:#1F1F21;--dnt:#FD9891;--dng:#F87168;--fo:#8FB8F6;--sh2:0 0 0 1px #BDBDBD1F,0 8px 12px #0104045C,0 0 1px 1px #01040480}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){color-scheme:dark;--bg:#1F1F21;--ovl:#2B2C2F;--raised:#242528;--bd:#E3E4F21F;--bdi:#7E8188;--tx:#CECFD2;--t2:#A9ABAF;--mu:#96999E;--br:#669DF1;--brh:#8FB8F6;--brp:#ADCBFB;--inv:#1F1F21;--dnt:#FD9891;--dng:#F87168;--fo:#8FB8F6;--sh2:0 0 0 1px #BDBDBD1F,0 8px 12px #0104045C,0 0 1px 1px #01040480}}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;background:var(--bg);color:var(--tx);font:14px/20px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+form{width:100%;max-width:380px;background:var(--ovl);border:1px solid var(--bd);border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:16px;box-shadow:var(--sh2)}
+.b{display:flex;flex-direction:column;align-items:flex-start;gap:8px;font-size:20px;line-height:24px;font-weight:600}.b img{border-radius:12px;box-shadow:0 0 0 1px var(--bd)}.b .hint{font-weight:400;font-size:14px;line-height:20px}
+.f{display:flex;flex-direction:column;gap:4px}label{font-size:12px;font-weight:600;color:var(--t2)}
+input,button{font:inherit;height:36px}input{padding:0 8px;border:1px solid var(--bdi);border-radius:6px;background:var(--raised);color:inherit;font:13px ui-monospace,"SF Mono",Menlo,Consolas,monospace}input:has(+.err){border-color:var(--dng)}
+button{border:0;border-radius:6px;background:var(--br);color:var(--inv);font-weight:500;cursor:pointer}button:hover{background:var(--brh)}button:active{background:var(--brp)}:focus-visible{outline:2px solid var(--fo);outline-offset:2px}
+.err{color:var(--dnt);margin:0;font-size:12px;line-height:16px}.hint{color:var(--t2);font-size:12px;line-height:16px;margin:0}</style>
+<form method=post action=/login><div class=b><img src=/brand/icon-64.png width=48 height=48 alt=""><span>sheepdog</span><p class=hint>Your agents roam. Sheepdog brings them home.</p></div>
+<div class=f><label for=t>Access token</label>
+<input id=t name=token type=password autocomplete=current-password autofocus required><p class=err>Wrong token</p>
+<p class=hint>The token is in SHEEPDOG_TOKEN on the server (the .token file next to the sheepdog binary)</p></div>
+<button>Sign in</button></form>

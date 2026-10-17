@@ -1,0 +1,6 @@
+board.db*
+__pycache__/
+.token
+brand/brand-sheet.png
+bin/
+.privacy-patterns.local

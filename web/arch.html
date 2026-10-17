@@ -1,0 +1,58 @@
+<!doctype html><html lang=en>
+<meta charset=utf-8>
+<meta name=viewport content='width=device-width,initial-scale=1'>
+<title>sheepdog - architecture</title>
+<link rel=icon type=image/png href=/brand/favicon-32.png><script>{{THEME_JS}}</script>
+<style>{{BASE_CSS}}
+main{max-width:860px;margin:0 auto;padding:24px 16px 48px}
+h1{font-size:20px;line-height:26px}
+h2{margin:28px 0 8px;font-size:16px;line-height:20px;font-weight:600;color:var(--t2)}
+p,li{margin:4px 0;color:var(--t2)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+td{border-bottom:1px solid var(--bd);padding:6px 10px;text-align:left;vertical-align:top;overflow-wrap:anywhere}
+tr:last-child td{border:0}
+td:first-child,td code{white-space:nowrap;overflow-wrap:normal}
+.w{overflow-x:auto;background:var(--raised);border:1px solid var(--bd);border-radius:8px;padding:4px 8px}
+code{font:12px var(--mono);background:var(--neu);padding:0 4px;border-radius:4px;overflow-wrap:anywhere}
+.sv{overflow-x:auto;margin:12px 0}
+.sv svg{display:block;width:100%;min-width:820px;height:auto}
+svg text{fill:var(--tx);font-size:14.5px}
+svg .t{font-size:16px;font-weight:600}
+svg .s{fill:var(--t2)}
+svg .lb text{fill:var(--t2)}
+.nd rect{fill:var(--raised);stroke:var(--bdb)}
+.hub rect{fill:var(--sunk);stroke:var(--br);stroke-width:1.5}
+.ed path{fill:none;stroke:var(--t2);stroke-width:1.5;marker-end:url(#a)}
+.ds path{stroke-dasharray:6 4}
+.ed .rw{marker-start:url(#a)}
+marker path{fill:var(--t2)}
+</style>
+<main>
+<p><a href=/>Back to the board</a></p>
+<h1>How sheepdog works</h1>{{DIAGRAM}}
+<p>Hooks and the orchestrator write into one small server; the page and Claude read from it. The tables below are generated from the code, so they cannot go stale.</p>
+<h2>How a decision travels</h2>
+<ol>
+<li>The orchestrator posts a review card: <code>sheepdog brief KEY --file review.md --option ...</code> (waiting becomes you).</li>
+<li>You open it on the board. The page already has it, from its 3 s poll of <code>/api/state</code>.</li>
+<li>You click an option or reply: the server writes a pending row in <code>decisions</code> and a timeline note, and hands the task back to the agent.</li>
+<li>Exactly one of <code>sheepdog wait</code> or the next <code>UserPromptSubmit</code> hook in that folder claims it (status delivered) and Claude sees the text.</li>
+<li>Claude acts and runs <code>sheepdog done ID</code>; the page shows Done.</li></ol>
+<h2>Parents and sub-tasks</h2>
+<p>A big task is a parent and its pieces are sub-tasks: <code>sheepdog task T32 --parent T31</code> sets <code>tasks.parent</code> (one level only; the parent must exist; <code>--parent ""</code> clears it). A parent has no status of its own: it is derived from its sub-tasks (all done = done, any blocked = blocked, any review or testing = review, any building or analysing = building, else planned) and needs you when a sub-task does, but only the sub-tasks appear in Needs you.</p>
+<h2>Moving parts</h2>
+<ul>
+<li><code>bin/sheepdog</code>: the server, the CLI and the hook client, one static binary built from <code>cmd/sheepdog</code> with <code>internal/store</code>, <code>internal/server</code> and <code>internal/cli</code> (Go; one dependency, modernc.org/sqlite, no CGO; the <code>web/</code> pages and the <code>brand/</code> PNGs are embedded)</li>
+<li><code>web/</code>: the pages, shared by both implementations; <code>sheepdog.py</code> and <code>test_sheepdog.py</code>: the Python original, kept as the rollback and as the contract's reference</li>
+<li>tests: <code>go test ./...</code>, <code>python3 -m unittest</code>, <code>contract/run.py</code> (a 224-step contract, golden from Python, run against either server) and <code>contract/bench.py</code></li>
+<li>hooks: accepted only from the folders in <code>SHEEPDOG_ALLOW</code> (or <code>serve --allow DIR</code>) and below when it is set, every folder when it is not; <code>sheepdog purge --outside-allow</code> removes what other folders left</li>
+<li>privacy: paths and names are rewritten before anything is stored (a folder under an allowed root becomes <code>name:path</code>, the home directory <code>~</code>, temp dirs <code>&lt;tmp&gt;</code>, the user and host name <code>&lt;user&gt;</code> and <code>&lt;host&gt;</code>); <code>sheepdog scrub</code> rewrites rows stored earlier</li>
+<li><code>.token</code>: the access token (SHEEPDOG_TOKEN); <code>~/.local/share/sheepdog/board.db</code>: the SQLite data</li>
+<li><code>~/.claude/settings.json</code>: the hook entries (curl to <code>/api/hook</code>)</li>
+<li>your orchestrator's wrapper script (optional): it calls the CLI (<code>bin/sheepdog</code>, or <code>python3 sheepdog.py</code>)</li></ul>
+<h2>Numbers</h2>
+<ul>{{NUMBERS}}</ul>
+<h2>Routes (generated)</h2><div class=w><table>{{ROUTES}}</table></div>
+<h2>Tables (generated)</h2><div class=w><table>{{TABLES}}</table></div>
+<h2>Hook events (generated)</h2><div class=w><table>{{EVENTS}}</table></div>
+<p>When the architecture changes, update the diagram and prose above; a test fails if a route, table or hook event is missing here.</p></main>

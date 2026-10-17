@@ -1,0 +1,413 @@
+{
+ "db": {
+  "rows": {
+   "agents": [
+    {
+     "ended_at": "<ts>",
+     "id": "tu:tu-a",
+     "last_event_at": "<ts>",
+     "model": "",
+     "name": "Task 5 alt",
+     "rev": "<rev>",
+     "session_id": "sess-e2e",
+     "started_at": "<ts>",
+     "status": "done",
+     "task_key": "T5",
+     "tokens": null,
+     "tool_use_id": null,
+     "tool_uses": 0,
+     "type": ""
+    }
+   ],
+   "decisions": [],
+   "events": [
+    {
+     "agent_id": null,
+     "cwd": "",
+     "data": {},
+     "id": 1,
+     "kind": "status",
+     "project": "",
+     "rev": "<rev>",
+     "session_id": "",
+     "summary": "A1 created (planned): no auth",
+     "task_key": "A1",
+     "ts": "<ts>"
+    },
+    {
+     "agent_id": null,
+     "cwd": "/work/e2e",
+     "data": {
+      "cmd": "ls",
+      "exit": 1,
+      "out": "Exit code 1",
+      "tool": "Bash"
+     },
+     "id": 2,
+     "kind": "PostToolUseFailure",
+     "project": "e2e",
+     "rev": "<rev>",
+     "session_id": "sess-e2e",
+     "summary": "Bash failed: ls (Exit code 1)",
+     "task_key": null,
+     "ts": "<ts>"
+    },
+    {
+     "agent_id": null,
+     "cwd": "/work/e2e",
+     "data": {},
+     "id": 3,
+     "kind": "PostToolUse",
+     "project": "e2e",
+     "rev": "<rev>",
+     "session_id": "sess-e2e",
+     "summary": "agent done: alt",
+     "task_key": "T5",
+     "ts": "<ts>"
+    }
+   ],
+   "sqlite_sequence": [
+    {
+     "name": "events",
+     "seq": 3
+    }
+   ],
+   "tasks": [
+    {
+     "archived": 0,
+     "branch": "",
+     "brief": "",
+     "brief_at": null,
+     "brief_cwd": "",
+     "brief_options": [],
+     "created_at": "<ts>",
+     "done_at": null,
+     "key": "A1",
+     "last_event_at": "<ts>",
+     "mr_url": "",
+     "next": "",
+     "notes": [],
+     "parent": null,
+     "project": "",
+     "rev": "<rev>",
+     "status": "planned",
+     "title": "no auth",
+     "updated_at": "<ts>",
+     "waiting": "",
+     "worktree": ""
+    },
+    {
+     "archived": 0,
+     "branch": "",
+     "brief": "",
+     "brief_at": null,
+     "brief_cwd": "",
+     "brief_options": [],
+     "created_at": "<ts>",
+     "done_at": null,
+     "key": "T5",
+     "last_event_at": "<ts>",
+     "mr_url": "",
+     "next": "",
+     "notes": [],
+     "parent": null,
+     "project": "",
+     "rev": "<rev>",
+     "status": "building",
+     "title": "alt",
+     "updated_at": "<ts>",
+     "waiting": "",
+     "worktree": ""
+    }
+   ]
+  },
+  "schema": {
+   "index agents_rev": "CREATE INDEX agents_rev ON agents(rev)",
+   "index agents_tu": "CREATE INDEX agents_tu ON agents(tool_use_id)",
+   "index decisions_status": "CREATE INDEX decisions_status ON decisions(status)",
+   "index events_rev": "CREATE INDEX events_rev ON events(rev)",
+   "index events_task": "CREATE INDEX events_task ON events(task_key, id)",
+   "index events_ts": "CREATE INDEX events_ts ON events(ts)",
+   "index tasks_parent": "CREATE INDEX tasks_parent ON tasks(parent)",
+   "index tasks_rev": "CREATE INDEX tasks_rev ON tasks(rev)",
+   "table agents": "CREATE TABLE agents( id TEXT PRIMARY KEY, task_key TEXT, name TEXT NOT NULL DEFAULT '', model TEXT NOT NULL DEFAULT '', type TEXT NOT NULL DEFAULT '', session_id TEXT NOT NULL DEFAULT '', tool_use_id TEXT, status TEXT NOT NULL DEFAULT 'running', started_at INTEGER, ended_at INTEGER, last_event_at INTEGER, tool_uses INTEGER NOT NULL DEFAULT 0, tokens INTEGER, rev INTEGER NOT NULL DEFAULT 0)",
+   "table decisions": "CREATE TABLE decisions( id INTEGER PRIMARY KEY AUTOINCREMENT, task_key TEXT NOT NULL, option_id TEXT NOT NULL DEFAULT '', label TEXT NOT NULL DEFAULT '', text TEXT NOT NULL DEFAULT '', cwd TEXT NOT NULL DEFAULT '', created_at INTEGER, status TEXT NOT NULL DEFAULT 'pending', delivered_at INTEGER, delivered_to TEXT, done_at INTEGER, rev INTEGER NOT NULL DEFAULT 0)",
+   "table events": "CREATE TABLE events( id INTEGER PRIMARY KEY AUTOINCREMENT, ts INTEGER NOT NULL, session_id TEXT, cwd TEXT, project TEXT, task_key TEXT, agent_id TEXT, kind TEXT NOT NULL, summary TEXT NOT NULL DEFAULT '', data TEXT NOT NULL DEFAULT '{}', rev INTEGER NOT NULL DEFAULT 0)",
+   "table sqlite_sequence": "CREATE TABLE sqlite_sequence(name,seq)",
+   "table tasks": "CREATE TABLE tasks( key TEXT PRIMARY KEY, title TEXT NOT NULL DEFAULT '', status TEXT NOT NULL DEFAULT 'planned', project TEXT NOT NULL DEFAULT '', branch TEXT NOT NULL DEFAULT '', worktree TEXT NOT NULL DEFAULT '', mr_url TEXT NOT NULL DEFAULT '', notes TEXT NOT NULL DEFAULT '[]', created_at INTEGER, updated_at INTEGER, last_event_at INTEGER, archived INTEGER NOT NULL DEFAULT 0, rev INTEGER NOT NULL DEFAULT 0, next TEXT NOT NULL DEFAULT '', waiting TEXT NOT NULL DEFAULT '', done_at INTEGER, brief TEXT NOT NULL DEFAULT '', brief_options TEXT NOT NULL DEFAULT '[]', brief_at INTEGER, brief_cwd TEXT NOT NULL DEFAULT '', parent TEXT)"
+  }
+ },
+ "steps": [
+  {
+   "body": {
+    "agents": [],
+    "cursor": "<rev>",
+    "events": [],
+    "failed": {},
+    "tasks": []
+   },
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "GET /api/state",
+   "status": 200,
+   "step": "001-state-without-token"
+  },
+  {
+   "body": {
+    "bytes": 89071,
+    "sha256": "e8dcdb2b7d856b086a7d6e10a657648cf22cbfaa21c8e65e319540366d1d8a6e"
+   },
+   "content_type": "text/html; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "GET /",
+   "status": 200,
+   "step": "002-board-without-token"
+  },
+  {
+   "body": {
+    "bytes": 89071,
+    "sha256": "e8dcdb2b7d856b086a7d6e10a657648cf22cbfaa21c8e65e319540366d1d8a6e"
+   },
+   "content_type": "text/html; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "GET /?token=anything",
+   "status": 200,
+   "step": "003-token-query-ignored"
+  },
+  {
+   "body": {
+    "bytes": 3136,
+    "sha256": "72bc51571b1280e3668f124970e2acedb2c084fec41b7875aa6dc0d8a44bb801"
+   },
+   "content_type": "text/html; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "POST /login",
+   "status": 401,
+   "step": "004-login-when-no-auth"
+  },
+  {
+   "body": {
+    "archived": 0,
+    "branch": "",
+    "brief": "",
+    "brief_at": null,
+    "brief_cwd": "",
+    "brief_options": [],
+    "children": [],
+    "created_at": "<ts>",
+    "decision": null,
+    "done_at": null,
+    "end_at": null,
+    "key": "A1",
+    "last_event_at": "<ts>",
+    "mr_url": "",
+    "needs_you": false,
+    "next": "",
+    "notes": [],
+    "parent": null,
+    "parent_title": null,
+    "progress": null,
+    "project": "",
+    "rev": "<rev>",
+    "status": "planned",
+    "title": "no auth",
+    "updated_at": "<ts>",
+    "waiting": "",
+    "worktree": ""
+   },
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "POST /api/task",
+   "status": 200,
+   "step": "005-task-without-token"
+  },
+  {
+   "body": "",
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "POST /api/hook",
+   "status": 200,
+   "step": "006-hook-ordinary-tool-skipped"
+  },
+  {
+   "body": "",
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "POST /api/hook",
+   "status": 200,
+   "step": "007-hook-ordinary-failure-still-logged"
+  },
+  {
+   "body": "",
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "POST /api/hook",
+   "status": 200,
+   "step": "008-hook-agent-tool-still-logged"
+  },
+  {
+   "body": {
+    "agents": [
+     {
+      "ended_at": "<ts>",
+      "id": "tu:tu-a",
+      "last_event_at": "<ts>",
+      "model": "",
+      "name": "Task 5 alt",
+      "rev": "<rev>",
+      "session_id": "sess-e2e",
+      "started_at": "<ts>",
+      "status": "done",
+      "task_key": "T5",
+      "tokens": null,
+      "tool_use_id": null,
+      "tool_uses": 0,
+      "type": ""
+     }
+    ],
+    "cursor": "<rev>",
+    "events": [
+     {
+      "agent_id": null,
+      "cwd": "/work/e2e",
+      "data": {},
+      "id": 3,
+      "kind": "PostToolUse",
+      "project": "e2e",
+      "rev": "<rev>",
+      "session_id": "sess-e2e",
+      "summary": "agent done: alt",
+      "task_key": "T5",
+      "ts": "<ts>"
+     },
+     {
+      "agent_id": null,
+      "cwd": "/work/e2e",
+      "data": {
+       "cmd": "ls",
+       "exit": 1,
+       "out": "Exit code 1",
+       "tool": "Bash"
+      },
+      "id": 2,
+      "kind": "PostToolUseFailure",
+      "project": "e2e",
+      "rev": "<rev>",
+      "session_id": "sess-e2e",
+      "summary": "Bash failed: ls (Exit code 1)",
+      "task_key": null,
+      "ts": "<ts>"
+     },
+     {
+      "agent_id": null,
+      "cwd": "",
+      "data": {},
+      "id": 1,
+      "kind": "status",
+      "project": "",
+      "rev": "<rev>",
+      "session_id": "",
+      "summary": "A1 created (planned): no auth",
+      "task_key": "A1",
+      "ts": "<ts>"
+     }
+    ],
+    "failed": {
+     "": 1
+    },
+    "tasks": [
+     {
+      "archived": 0,
+      "branch": "",
+      "brief": "",
+      "brief_at": null,
+      "brief_cwd": "",
+      "brief_options": [],
+      "children": [],
+      "created_at": "<ts>",
+      "decision": null,
+      "done_at": null,
+      "end_at": null,
+      "key": "A1",
+      "last_event_at": "<ts>",
+      "mr_url": "",
+      "needs_you": false,
+      "next": "",
+      "notes": [],
+      "parent": null,
+      "parent_title": null,
+      "progress": null,
+      "project": "",
+      "rev": "<rev>",
+      "status": "planned",
+      "title": "no auth",
+      "updated_at": "<ts>",
+      "waiting": "",
+      "worktree": ""
+     },
+     {
+      "archived": 0,
+      "branch": "",
+      "brief": "",
+      "brief_at": null,
+      "brief_cwd": "",
+      "brief_options": [],
+      "children": [],
+      "created_at": "<ts>",
+      "decision": null,
+      "done_at": null,
+      "end_at": null,
+      "key": "T5",
+      "last_event_at": "<ts>",
+      "mr_url": "",
+      "needs_you": false,
+      "next": "",
+      "notes": [],
+      "parent": null,
+      "parent_title": null,
+      "progress": null,
+      "project": "",
+      "rev": "<rev>",
+      "status": "building",
+      "title": "alt",
+      "updated_at": "<ts>",
+      "waiting": "",
+      "worktree": ""
+     }
+    ]
+   },
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "GET /api/state",
+   "status": 200,
+   "step": "009-state-end"
+  }
+ ]
+}

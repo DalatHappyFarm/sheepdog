@@ -1,0 +1,512 @@
+[
+ {
+  "args": "task G1 --title CLI task --project gamma --branch feat/g1 --worktree /work/gamma/g1 --mr https://gitlab.example.com/g/p/-/merge_requests/11 --next begin --waiting agent --note created by the CLI",
+  "exit": 0,
+  "stderr": "",
+  "stdin": null,
+  "stdout": {
+   "archived": 0,
+   "branch": "feat/g1",
+   "brief": "",
+   "brief_at": null,
+   "brief_cwd": "",
+   "brief_options": [],
+   "children": [],
+   "created_at": "<ts>",
+   "decision": null,
+   "done_at": null,
+   "end_at": null,
+   "key": "G1",
+   "last_event_at": "<ts>",
+   "mr_url": "https://gitlab.example.com/g/p/-/merge_requests/11",
+   "needs_you": false,
+   "next": "begin",
+   "notes": [
+    {
+     "text": "created by the CLI",
+     "ts": "<ts>"
+    }
+   ],
+   "parent": null,
+   "parent_title": null,
+   "progress": null,
+   "project": "gamma",
+   "rev": "<rev>",
+   "status": "planned",
+   "title": "CLI task",
+   "updated_at": "<ts>",
+   "waiting": "agent",
+   "worktree": "/work/gamma/g1"
+  },
+  "step": "174-task-create"
+ },
+ {
+  "args": "task G1 --status running",
+  "exit": 0,
+  "stderr": "",
+  "stdin": null,
+  "stdout": {
+   "archived": 0,
+   "branch": "feat/g1",
+   "brief": "",
+   "brief_at": null,
+   "brief_cwd": "",
+   "brief_options": [],
+   "children": [],
+   "created_at": "<ts>",
+   "decision": null,
+   "done_at": null,
+   "end_at": null,
+   "key": "G1",
+   "last_event_at": "<ts>",
+   "mr_url": "https://gitlab.example.com/g/p/-/merge_requests/11",
+   "needs_you": false,
+   "next": "begin",
+   "notes": [
+    {
+     "text": "created by the CLI",
+     "ts": "<ts>"
+    }
+   ],
+   "parent": null,
+   "parent_title": null,
+   "progress": null,
+   "project": "gamma",
+   "rev": "<rev>",
+   "status": "building",
+   "title": "CLI task",
+   "updated_at": "<ts>",
+   "waiting": "agent",
+   "worktree": "/work/gamma/g1"
+  },
+  "step": "175-task-status-running"
+ },
+ {
+  "args": "task G2 --title CLI sub-task --parent G1",
+  "exit": 0,
+  "stderr": "",
+  "stdin": null,
+  "stdout": {
+   "archived": 0,
+   "branch": "",
+   "brief": "",
+   "brief_at": null,
+   "brief_cwd": "",
+   "brief_options": [],
+   "children": [],
+   "created_at": "<ts>",
+   "decision": null,
+   "done_at": null,
+   "end_at": null,
+   "key": "G2",
+   "last_event_at": "<ts>",
+   "mr_url": "",
+   "needs_you": false,
+   "next": "",
+   "notes": [],
+   "parent": "G1",
+   "parent_title": "CLI task",
+   "progress": null,
+   "project": "",
+   "rev": "<rev>",
+   "status": "planned",
+   "title": "CLI sub-task",
+   "updated_at": "<ts>",
+   "waiting": "",
+   "worktree": ""
+  },
+  "step": "176-task-parent"
+ },
+ {
+  "args": "task G2 --parent ",
+  "exit": 0,
+  "stderr": "",
+  "stdin": null,
+  "stdout": {
+   "archived": 0,
+   "branch": "",
+   "brief": "",
+   "brief_at": null,
+   "brief_cwd": "",
+   "brief_options": [],
+   "children": [],
+   "created_at": "<ts>",
+   "decision": null,
+   "done_at": null,
+   "end_at": null,
+   "key": "G2",
+   "last_event_at": "<ts>",
+   "mr_url": "",
+   "needs_you": false,
+   "next": "",
+   "notes": [],
+   "parent": null,
+   "parent_title": null,
+   "progress": null,
+   "project": "",
+   "rev": "<rev>",
+   "status": "planned",
+   "title": "CLI sub-task",
+   "updated_at": "<ts>",
+   "waiting": "",
+   "worktree": ""
+  },
+  "step": "177-task-parent-clear"
+ },
+ {
+  "args": "task G1 --worktree relative",
+  "exit": 1,
+  "stderr": "error 400: worktree must be an absolute path",
+  "stdin": null,
+  "stdout": "",
+  "step": "178-task-server-error"
+ },
+ {
+  "args": "agent cli-ag --task G1 --name Task 1 cli agent --model opus --status running",
+  "exit": 0,
+  "stderr": "",
+  "stdin": null,
+  "stdout": {
+   "ended_at": null,
+   "id": "cli-ag",
+   "last_event_at": "<ts>",
+   "model": "opus",
+   "name": "Task 1 cli agent",
+   "rev": "<rev>",
+   "session_id": "",
+   "started_at": "<ts>",
+   "status": "running",
+   "task_key": "G1",
+   "tokens": null,
+   "tool_use_id": null,
+   "tool_uses": 0,
+   "type": ""
+  },
+  "step": "179-agent-create"
+ },
+ {
+  "args": "agent cli-ag --status done",
+  "exit": 0,
+  "stderr": "",
+  "stdin": null,
+  "stdout": {
+   "ended_at": "<ts>",
+   "id": "cli-ag",
+   "last_event_at": "<ts>",
+   "model": "opus",
+   "name": "Task 1 cli agent",
+   "rev": "<rev>",
+   "session_id": "",
+   "started_at": "<ts>",
+   "status": "done",
+   "task_key": "G1",
+   "tokens": null,
+   "tool_use_id": null,
+   "tool_uses": 0,
+   "type": ""
+  },
+  "step": "180-agent-done"
+ },
+ {
+  "args": "agent cli-ag2 --task NOPE",
+  "exit": 1,
+  "stderr": "error 400: no such task NOPE",
+  "stdin": null,
+  "stdout": "",
+  "step": "181-agent-server-error"
+ },
+ {
+  "args": "brief G1 --file <tmp>/m181.md --option go|Go ahead|ships it --option stop|Stop --option rework|Rework|needs changes --primary go --cwd /work/gamma/g1",
+  "exit": 0,
+  "stderr": "",
+  "stdin": null,
+  "stdout": {
+   "archived": 0,
+   "branch": "feat/g1",
+   "brief": "# Review G1\n\nLooks fine.\n\n- [ ] item",
+   "brief_at": "<ts>",
+   "brief_cwd": "/work/gamma/g1",
+   "brief_options": [
+    {
+     "hint": "ships it",
+     "id": "go",
+     "label": "Go ahead",
+     "primary": true
+    },
+    {
+     "hint": "",
+     "id": "stop",
+     "label": "Stop",
+     "primary": false
+    },
+    {
+     "hint": "needs changes",
+     "id": "rework",
+     "label": "Rework",
+     "primary": false
+    }
+   ],
+   "children": [],
+   "created_at": "<ts>",
+   "decision": null,
+   "done_at": null,
+   "end_at": null,
+   "key": "G1",
+   "last_event_at": "<ts>",
+   "mr_url": "https://gitlab.example.com/g/p/-/merge_requests/11",
+   "needs_you": true,
+   "next": "Review card ready",
+   "notes": [
+    {
+     "text": "created by the CLI",
+     "ts": "<ts>"
+    }
+   ],
+   "parent": null,
+   "parent_title": null,
+   "progress": null,
+   "project": "gamma",
+   "rev": "<rev>",
+   "status": "review",
+   "title": "CLI task",
+   "updated_at": "<ts>",
+   "waiting": "me",
+   "worktree": "/work/gamma/g1"
+  },
+  "step": "182-brief-options"
+ },
+ {
+  "args": "brief G2 --file - --cwd /work/gamma/g2",
+  "exit": 0,
+  "stderr": "",
+  "stdin": "## from stdin\nbody\n",
+  "stdout": {
+   "archived": 0,
+   "branch": "",
+   "brief": "## from stdin\nbody",
+   "brief_at": "<ts>",
+   "brief_cwd": "/work/gamma/g2",
+   "brief_options": [],
+   "children": [],
+   "created_at": "<ts>",
+   "decision": null,
+   "done_at": null,
+   "end_at": null,
+   "key": "G2",
+   "last_event_at": "<ts>",
+   "mr_url": "",
+   "needs_you": true,
+   "next": "Review card ready",
+   "notes": [],
+   "parent": null,
+   "parent_title": null,
+   "progress": null,
+   "project": "",
+   "rev": "<rev>",
+   "status": "review",
+   "title": "CLI sub-task",
+   "updated_at": "<ts>",
+   "waiting": "me",
+   "worktree": ""
+  },
+  "step": "183-brief-stdin"
+ },
+ {
+  "args": "brief G1 --file <tmp>/m181.md --option go|Go --primary nope",
+  "exit": 1,
+  "stderr": "--primary nope is not one of the options",
+  "stdin": null,
+  "stdout": "",
+  "step": "184-brief-bad-primary"
+ },
+ {
+  "args": "brief G1 --file <tmp>/m181.md --option o0|L --option o1|L --option o2|L --option o3|L --option o4|L --option o5|L",
+  "exit": 1,
+  "stderr": "error 400: options must be a list of at most 5",
+  "stdin": null,
+  "stdout": "",
+  "step": "185-brief-too-many"
+ },
+ {
+  "args": "brief NOPE --file <tmp>/m181.md",
+  "exit": 1,
+  "stderr": "error 404: no such task",
+  "stdin": null,
+  "stdout": "",
+  "step": "186-brief-unknown-task"
+ },
+ {
+  "args": "wait --cwd /work/gamma",
+  "exit": 0,
+  "stderr": "",
+  "stdin": null,
+  "stdout": "BOARD DECISION #8 G1: Go ahead\n(ack: sheepdog.py done 8)\n",
+  "step": "188-wait-delivers-decision"
+ },
+ {
+  "args": "done 8",
+  "exit": 0,
+  "stderr": "",
+  "stdin": null,
+  "stdout": {
+   "created_at": "<ts>",
+   "cwd": "/work/gamma/g1",
+   "delivered_at": "<ts>",
+   "delivered_to": "waiter",
+   "done_at": "<ts>",
+   "id": 8,
+   "label": "Go ahead",
+   "option_id": "go",
+   "rev": "<rev>",
+   "status": "done",
+   "task_key": "G1",
+   "text": ""
+  },
+  "step": "189-done"
+ },
+ {
+  "args": "done 99999",
+  "exit": 1,
+  "stderr": "error 404: no such decision",
+  "stdin": null,
+  "stdout": "",
+  "step": "190-done-unknown"
+ },
+ {
+  "args": "archive G2",
+  "exit": 0,
+  "stderr": "",
+  "stdin": null,
+  "stdout": {
+   "archived": 1,
+   "branch": "",
+   "brief": "## from stdin\nbody",
+   "brief_at": "<ts>",
+   "brief_cwd": "/work/gamma/g2",
+   "brief_options": [],
+   "children": [],
+   "created_at": "<ts>",
+   "decision": null,
+   "done_at": null,
+   "end_at": null,
+   "key": "G2",
+   "last_event_at": "<ts>",
+   "mr_url": "",
+   "needs_you": true,
+   "next": "Review card ready",
+   "notes": [],
+   "parent": null,
+   "parent_title": null,
+   "progress": null,
+   "project": "",
+   "rev": "<rev>",
+   "status": "review",
+   "title": "CLI sub-task",
+   "updated_at": "<ts>",
+   "waiting": "me",
+   "worktree": ""
+  },
+  "step": "191-archive"
+ },
+ {
+  "args": "archive NOPE",
+  "exit": 1,
+  "stderr": "error 400: no such task",
+  "stdin": null,
+  "stdout": "",
+  "step": "192-archive-unknown"
+ },
+ {
+  "args": "hook",
+  "exit": 0,
+  "stderr": "",
+  "stdin": "{\"session_id\": \"s-cli\", \"cwd\": \"/work/hk/h1\", \"hook_event_name\": \"UserPromptSubm",
+  "stdout": {
+   "hookSpecificOutput": {
+    "additionalContext": "Board decisions waiting for you:\n\nBOARD DECISION #9 H1: Reply\nyes, and add a test\n(ack: sheepdog.py done 9)",
+    "hookEventName": "UserPromptSubmit"
+   }
+  },
+  "step": "196-hook-prompt-delivers"
+ },
+ {
+  "args": "hook",
+  "exit": 0,
+  "stderr": "",
+  "stdin": "{\"session_id\": \"s-cli\", \"cwd\": \"/work/hk/h1\", \"hook_event_name\": \"UserPromptSubm",
+  "stdout": "",
+  "step": "197-hook-prompt-second-time-empty"
+ },
+ {
+  "args": "hook",
+  "exit": 0,
+  "stderr": "",
+  "stdin": "{\"session_id\": \"sess-e2e\", \"cwd\": \"/work/hk/h1\", \"hook_event_name\": \"SessionStar",
+  "stdout": "",
+  "step": "198-hook-session-start"
+ },
+ {
+  "args": "hook",
+  "exit": 0,
+  "stderr": "",
+  "stdin": "{\"session_id\": \"sess-e2e\", \"cwd\": \"/work/hk/h1\", \"hook_event_name\": \"PostToolUse",
+  "stdout": "",
+  "step": "199-hook-post-bash"
+ },
+ {
+  "args": "hook",
+  "exit": 0,
+  "stderr": "",
+  "stdin": "{\"session_id\": \"sess-e2e\", \"cwd\": \"/work/hk/h1\", \"hook_event_name\": \"PostToolUse",
+  "stdout": "",
+  "step": "200-hook-failure-bash"
+ },
+ {
+  "args": "hook",
+  "exit": 0,
+  "stderr": "",
+  "stdin": "{\"session_id\": \"sess-e2e\", \"cwd\": \"/work/hk/h1\", \"hook_event_name\": \"PreToolUse\"",
+  "stdout": "",
+  "step": "201-hook-pre-agent"
+ },
+ {
+  "args": "hook",
+  "exit": 0,
+  "stderr": "",
+  "stdin": "{\"session_id\": \"sess-e2e\", \"cwd\": \"/work/hk/h1\", \"hook_event_name\": \"PostToolUse",
+  "stdout": "",
+  "step": "202-hook-post-agent"
+ },
+ {
+  "args": "hook",
+  "exit": 0,
+  "stderr": "",
+  "stdin": "{\"session_id\": \"sess-e2e\", \"cwd\": \"/work/e2e\", \"hook_event_name\": \"PreToolUse\", ",
+  "stdout": "",
+  "step": "203-hook-pre-ordinary-ignored"
+ },
+ {
+  "args": "hook",
+  "exit": 0,
+  "stderr": "",
+  "stdin": "{\"session_id\": \"sess-e2e\", \"cwd\": \"/work/e2e\", \"hook_event_name\": \"SubagentStop\"",
+  "stdout": "",
+  "step": "204-hook-subagent-stop"
+ },
+ {
+  "args": "hook",
+  "exit": 0,
+  "stderr": "",
+  "stdin": "not json at all",
+  "stdout": "",
+  "step": "205-hook-garbage-stdin-exits-0"
+ },
+ {
+  "args": "hook",
+  "exit": 0,
+  "stderr": "",
+  "stdin": "",
+  "stdout": "",
+  "step": "206-hook-empty-stdin-exits-0"
+ }
+]

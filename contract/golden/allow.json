@@ -1,0 +1,846 @@
+{
+ "db": {
+  "rows": {
+   "agents": [],
+   "decisions": [
+    {
+     "created_at": "<ts>",
+     "cwd": "inside:",
+     "delivered_at": "<ts>",
+     "delivered_to": "hook:sess-e2e",
+     "done_at": null,
+     "id": 1,
+     "label": "Go",
+     "option_id": "go",
+     "rev": "<rev>",
+     "status": "delivered",
+     "task_key": "A1",
+     "text": ""
+    }
+   ],
+   "events": [
+    {
+     "agent_id": null,
+     "cwd": "",
+     "data": {},
+     "id": 1,
+     "kind": "status",
+     "project": "",
+     "rev": "<rev>",
+     "session_id": "",
+     "summary": "A1 created (planned): api calls are not filtered",
+     "task_key": "A1",
+     "ts": "<ts>"
+    },
+    {
+     "agent_id": null,
+     "cwd": "",
+     "data": {
+      "options": [
+       "go"
+      ]
+     },
+     "id": 2,
+     "kind": "brief",
+     "project": "",
+     "rev": "<rev>",
+     "session_id": "",
+     "summary": "review ready: A1",
+     "task_key": "A1",
+     "ts": "<ts>"
+    },
+    {
+     "agent_id": null,
+     "cwd": "",
+     "data": {
+      "action": "option",
+      "option": "go"
+     },
+     "id": 3,
+     "kind": "decision",
+     "project": "",
+     "rev": "<rev>",
+     "session_id": "",
+     "summary": "Decision: Go",
+     "task_key": "A1",
+     "ts": "<ts>"
+    },
+    {
+     "agent_id": null,
+     "cwd": "inside:app",
+     "data": {
+      "source": "startup"
+     },
+     "id": 4,
+     "kind": "SessionStart",
+     "project": "app",
+     "rev": "<rev>",
+     "session_id": "sess-e2e",
+     "summary": "session start (startup)",
+     "task_key": null,
+     "ts": "<ts>"
+    },
+    {
+     "agent_id": null,
+     "cwd": "also:",
+     "data": {
+      "source": "resume"
+     },
+     "id": 5,
+     "kind": "SessionStart",
+     "project": "also",
+     "rev": "<rev>",
+     "session_id": "sess-e2e",
+     "summary": "session start (resume)",
+     "task_key": null,
+     "ts": "<ts>"
+    },
+    {
+     "agent_id": null,
+     "cwd": "",
+     "data": {},
+     "id": 6,
+     "kind": "Stop",
+     "project": "",
+     "rev": "<rev>",
+     "session_id": "no-cwd",
+     "summary": "turn finished",
+     "task_key": null,
+     "ts": "<ts>"
+    },
+    {
+     "agent_id": null,
+     "cwd": "inside:app",
+     "data": {},
+     "id": 7,
+     "kind": "UserPromptSubmit",
+     "project": "app",
+     "rev": "<rev>",
+     "session_id": "sess-e2e",
+     "summary": "prompt: next",
+     "task_key": null,
+     "ts": "<ts>"
+    },
+    {
+     "agent_id": null,
+     "cwd": "",
+     "data": {},
+     "id": 8,
+     "kind": "status",
+     "project": "",
+     "rev": "<rev>",
+     "session_id": "",
+     "summary": "A2 created (planned): cli is not filtered",
+     "task_key": "A2",
+     "ts": "<ts>"
+    }
+   ],
+   "sqlite_sequence": [
+    {
+     "name": "events",
+     "seq": 8
+    },
+    {
+     "name": "decisions",
+     "seq": 1
+    }
+   ],
+   "tasks": [
+    {
+     "archived": 0,
+     "branch": "",
+     "brief": "## A1\nok?",
+     "brief_at": "<ts>",
+     "brief_cwd": "inside:",
+     "brief_options": [
+      {
+       "hint": "",
+       "id": "go",
+       "label": "Go",
+       "primary": false
+      }
+     ],
+     "created_at": "<ts>",
+     "done_at": null,
+     "key": "A1",
+     "last_event_at": "<ts>",
+     "mr_url": "",
+     "next": "Acting on: Go",
+     "notes": [
+      {
+       "text": "Decision: Go",
+       "ts": "<ts>"
+      }
+     ],
+     "parent": null,
+     "project": "",
+     "rev": "<rev>",
+     "status": "building",
+     "title": "api calls are not filtered",
+     "updated_at": "<ts>",
+     "waiting": "agent",
+     "worktree": "/work/elsewhere/wt"
+    },
+    {
+     "archived": 0,
+     "branch": "",
+     "brief": "",
+     "brief_at": null,
+     "brief_cwd": "",
+     "brief_options": [],
+     "created_at": "<ts>",
+     "done_at": null,
+     "key": "A2",
+     "last_event_at": "<ts>",
+     "mr_url": "",
+     "next": "",
+     "notes": [],
+     "parent": null,
+     "project": "",
+     "rev": "<rev>",
+     "status": "planned",
+     "title": "cli is not filtered",
+     "updated_at": "<ts>",
+     "waiting": "",
+     "worktree": "/work/elsewhere/wt2"
+    }
+   ]
+  },
+  "schema": {
+   "index agents_rev": "CREATE INDEX agents_rev ON agents(rev)",
+   "index agents_tu": "CREATE INDEX agents_tu ON agents(tool_use_id)",
+   "index decisions_status": "CREATE INDEX decisions_status ON decisions(status)",
+   "index events_rev": "CREATE INDEX events_rev ON events(rev)",
+   "index events_task": "CREATE INDEX events_task ON events(task_key, id)",
+   "index events_ts": "CREATE INDEX events_ts ON events(ts)",
+   "index tasks_parent": "CREATE INDEX tasks_parent ON tasks(parent)",
+   "index tasks_rev": "CREATE INDEX tasks_rev ON tasks(rev)",
+   "table agents": "CREATE TABLE agents( id TEXT PRIMARY KEY, task_key TEXT, name TEXT NOT NULL DEFAULT '', model TEXT NOT NULL DEFAULT '', type TEXT NOT NULL DEFAULT '', session_id TEXT NOT NULL DEFAULT '', tool_use_id TEXT, status TEXT NOT NULL DEFAULT 'running', started_at INTEGER, ended_at INTEGER, last_event_at INTEGER, tool_uses INTEGER NOT NULL DEFAULT 0, tokens INTEGER, rev INTEGER NOT NULL DEFAULT 0)",
+   "table decisions": "CREATE TABLE decisions( id INTEGER PRIMARY KEY AUTOINCREMENT, task_key TEXT NOT NULL, option_id TEXT NOT NULL DEFAULT '', label TEXT NOT NULL DEFAULT '', text TEXT NOT NULL DEFAULT '', cwd TEXT NOT NULL DEFAULT '', created_at INTEGER, status TEXT NOT NULL DEFAULT 'pending', delivered_at INTEGER, delivered_to TEXT, done_at INTEGER, rev INTEGER NOT NULL DEFAULT 0)",
+   "table events": "CREATE TABLE events( id INTEGER PRIMARY KEY AUTOINCREMENT, ts INTEGER NOT NULL, session_id TEXT, cwd TEXT, project TEXT, task_key TEXT, agent_id TEXT, kind TEXT NOT NULL, summary TEXT NOT NULL DEFAULT '', data TEXT NOT NULL DEFAULT '{}', rev INTEGER NOT NULL DEFAULT 0)",
+   "table sqlite_sequence": "CREATE TABLE sqlite_sequence(name,seq)",
+   "table tasks": "CREATE TABLE tasks( key TEXT PRIMARY KEY, title TEXT NOT NULL DEFAULT '', status TEXT NOT NULL DEFAULT 'planned', project TEXT NOT NULL DEFAULT '', branch TEXT NOT NULL DEFAULT '', worktree TEXT NOT NULL DEFAULT '', mr_url TEXT NOT NULL DEFAULT '', notes TEXT NOT NULL DEFAULT '[]', created_at INTEGER, updated_at INTEGER, last_event_at INTEGER, archived INTEGER NOT NULL DEFAULT 0, rev INTEGER NOT NULL DEFAULT 0, next TEXT NOT NULL DEFAULT '', waiting TEXT NOT NULL DEFAULT '', done_at INTEGER, brief TEXT NOT NULL DEFAULT '', brief_options TEXT NOT NULL DEFAULT '[]', brief_at INTEGER, brief_cwd TEXT NOT NULL DEFAULT '', parent TEXT)"
+  }
+ },
+ "steps": [
+  {
+   "body": {
+    "agents": [],
+    "cursor": "<rev>",
+    "events": [],
+    "failed": {},
+    "tasks": []
+   },
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "GET /api/state",
+   "status": 200,
+   "step": "001-state-empty"
+  },
+  {
+   "body": {
+    "archived": 0,
+    "branch": "",
+    "brief": "",
+    "brief_at": null,
+    "brief_cwd": "",
+    "brief_options": [],
+    "children": [],
+    "created_at": "<ts>",
+    "decision": null,
+    "done_at": null,
+    "end_at": null,
+    "key": "A1",
+    "last_event_at": "<ts>",
+    "mr_url": "",
+    "needs_you": false,
+    "next": "",
+    "notes": [],
+    "parent": null,
+    "parent_title": null,
+    "progress": null,
+    "project": "",
+    "rev": "<rev>",
+    "status": "planned",
+    "title": "api calls are not filtered",
+    "updated_at": "<ts>",
+    "waiting": "",
+    "worktree": "/work/elsewhere/wt"
+   },
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "POST /api/task",
+   "status": 200,
+   "step": "002-task-outside-folder-not-filtered"
+  },
+  {
+   "body": {
+    "archived": 0,
+    "branch": "",
+    "brief": "## A1\nok?",
+    "brief_at": "<ts>",
+    "brief_cwd": "inside:",
+    "brief_options": [
+     {
+      "hint": "",
+      "id": "go",
+      "label": "Go",
+      "primary": false
+     }
+    ],
+    "children": [],
+    "created_at": "<ts>",
+    "decision": null,
+    "done_at": null,
+    "end_at": null,
+    "key": "A1",
+    "last_event_at": "<ts>",
+    "mr_url": "",
+    "needs_you": true,
+    "next": "Review card ready",
+    "notes": [],
+    "parent": null,
+    "parent_title": null,
+    "progress": null,
+    "project": "",
+    "rev": "<rev>",
+    "status": "review",
+    "title": "api calls are not filtered",
+    "updated_at": "<ts>",
+    "waiting": "me",
+    "worktree": "/work/elsewhere/wt"
+   },
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "POST /api/task/A1/brief",
+   "status": 200,
+   "step": "003-brief-for-allowed-folder"
+  },
+  {
+   "body": {
+    "archived": 0,
+    "branch": "",
+    "brief": "## A1\nok?",
+    "brief_at": "<ts>",
+    "brief_cwd": "inside:",
+    "brief_options": [
+     {
+      "hint": "",
+      "id": "go",
+      "label": "Go",
+      "primary": false
+     }
+    ],
+    "children": [],
+    "created_at": "<ts>",
+    "decision": {
+     "created_at": "<ts>",
+     "delivered_at": null,
+     "done_at": null,
+     "id": 1,
+     "label": "Go",
+     "option_id": "go",
+     "status": "pending",
+     "text": ""
+    },
+    "done_at": null,
+    "end_at": null,
+    "key": "A1",
+    "last_event_at": "<ts>",
+    "mr_url": "",
+    "needs_you": false,
+    "next": "Acting on: Go",
+    "notes": [
+     {
+      "text": "Decision: Go",
+      "ts": "<ts>"
+     }
+    ],
+    "parent": null,
+    "parent_title": null,
+    "progress": null,
+    "project": "",
+    "rev": "<rev>",
+    "status": "building",
+    "title": "api calls are not filtered",
+    "updated_at": "<ts>",
+    "waiter": false,
+    "waiting": "agent",
+    "worktree": "/work/elsewhere/wt"
+   },
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "POST /api/task/A1/decision",
+   "status": 200,
+   "step": "004-decision-pending"
+  },
+  {
+   "body": {
+    "agents": [],
+    "cursor": "<rev>",
+    "events": [
+     {
+      "agent_id": null,
+      "cwd": "",
+      "data": {
+       "action": "option",
+       "option": "go"
+      },
+      "id": 3,
+      "kind": "decision",
+      "project": "",
+      "rev": "<rev>",
+      "session_id": "",
+      "summary": "Decision: Go",
+      "task_key": "A1",
+      "ts": "<ts>"
+     },
+     {
+      "agent_id": null,
+      "cwd": "",
+      "data": {
+       "options": [
+        "go"
+       ]
+      },
+      "id": 2,
+      "kind": "brief",
+      "project": "",
+      "rev": "<rev>",
+      "session_id": "",
+      "summary": "review ready: A1",
+      "task_key": "A1",
+      "ts": "<ts>"
+     },
+     {
+      "agent_id": null,
+      "cwd": "",
+      "data": {},
+      "id": 1,
+      "kind": "status",
+      "project": "",
+      "rev": "<rev>",
+      "session_id": "",
+      "summary": "A1 created (planned): api calls are not filtered",
+      "task_key": "A1",
+      "ts": "<ts>"
+     }
+    ],
+    "failed": {},
+    "tasks": [
+     {
+      "archived": 0,
+      "branch": "",
+      "brief": "## A1\nok?",
+      "brief_at": "<ts>",
+      "brief_cwd": "inside:",
+      "brief_options": [
+       {
+        "hint": "",
+        "id": "go",
+        "label": "Go",
+        "primary": false
+       }
+      ],
+      "children": [],
+      "created_at": "<ts>",
+      "decision": {
+       "created_at": "<ts>",
+       "delivered_at": null,
+       "done_at": null,
+       "id": 1,
+       "label": "Go",
+       "option_id": "go",
+       "status": "pending",
+       "text": ""
+      },
+      "done_at": null,
+      "end_at": null,
+      "key": "A1",
+      "last_event_at": "<ts>",
+      "mr_url": "",
+      "needs_you": false,
+      "next": "Acting on: Go",
+      "notes": [
+       {
+        "text": "Decision: Go",
+        "ts": "<ts>"
+       }
+      ],
+      "parent": null,
+      "parent_title": null,
+      "progress": null,
+      "project": "",
+      "rev": "<rev>",
+      "status": "building",
+      "title": "api calls are not filtered",
+      "updated_at": "<ts>",
+      "waiting": "agent",
+      "worktree": "/work/elsewhere/wt"
+     }
+    ]
+   },
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "GET /api/state",
+   "status": 200,
+   "step": "005-state-before-hooks"
+  },
+  {
+   "body": "",
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "POST /api/hook",
+   "status": 200,
+   "step": "006-hook-outside-dropped"
+  },
+  {
+   "body": "",
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "POST /api/hook",
+   "status": 200,
+   "step": "007-hook-sibling-prefix-dropped"
+  },
+  {
+   "body": "",
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "POST /api/hook",
+   "status": 200,
+   "step": "008-hook-relative-cwd-dropped"
+  },
+  {
+   "body": "",
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "POST /api/hook",
+   "status": 200,
+   "step": "009-hook-outside-agent-dropped"
+  },
+  {
+   "body": "",
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "POST /api/hook",
+   "status": 200,
+   "step": "010-hook-outside-prompt-never-delivers"
+  },
+  {
+   "body": {
+    "agents": [],
+    "cursor": "<rev>",
+    "events": [],
+    "failed": {},
+    "tasks": []
+   },
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "GET /api/state?since=7",
+   "status": 200,
+   "step": "011-state-unchanged-by-outside-hooks"
+  },
+  {
+   "body": "",
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "POST /api/hook",
+   "status": 200,
+   "step": "012-hook-inside-stored"
+  },
+  {
+   "body": "",
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "POST /api/hook",
+   "status": 200,
+   "step": "013-hook-second-root-stored"
+  },
+  {
+   "body": "",
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "POST /api/hook",
+   "status": 200,
+   "step": "014-hook-no-cwd-accepted"
+  },
+  {
+   "body": {
+    "error": "hook_event_name missing"
+   },
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "POST /api/hook",
+   "status": 400,
+   "step": "015-hook-missing-event-name-still-400"
+  },
+  {
+   "body": {
+    "hookSpecificOutput": {
+     "additionalContext": "Board decisions waiting for you:\n\nBOARD DECISION #1 A1: Go\n(ack: sheepdog.py done 1)",
+     "hookEventName": "UserPromptSubmit"
+    }
+   },
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "POST /api/hook",
+   "status": 200,
+   "step": "016-hook-inside-prompt-delivers"
+  },
+  {
+   "body": {
+    "agents": [],
+    "cursor": "<rev>",
+    "events": [
+     {
+      "agent_id": null,
+      "cwd": "inside:app",
+      "data": {},
+      "id": 7,
+      "kind": "UserPromptSubmit",
+      "project": "app",
+      "rev": "<rev>",
+      "session_id": "sess-e2e",
+      "summary": "prompt: next",
+      "task_key": null,
+      "ts": "<ts>"
+     },
+     {
+      "agent_id": null,
+      "cwd": "",
+      "data": {},
+      "id": 6,
+      "kind": "Stop",
+      "project": "",
+      "rev": "<rev>",
+      "session_id": "no-cwd",
+      "summary": "turn finished",
+      "task_key": null,
+      "ts": "<ts>"
+     },
+     {
+      "agent_id": null,
+      "cwd": "also:",
+      "data": {
+       "source": "resume"
+      },
+      "id": 5,
+      "kind": "SessionStart",
+      "project": "also",
+      "rev": "<rev>",
+      "session_id": "sess-e2e",
+      "summary": "session start (resume)",
+      "task_key": null,
+      "ts": "<ts>"
+     },
+     {
+      "agent_id": null,
+      "cwd": "inside:app",
+      "data": {
+       "source": "startup"
+      },
+      "id": 4,
+      "kind": "SessionStart",
+      "project": "app",
+      "rev": "<rev>",
+      "session_id": "sess-e2e",
+      "summary": "session start (startup)",
+      "task_key": null,
+      "ts": "<ts>"
+     },
+     {
+      "agent_id": null,
+      "cwd": "",
+      "data": {
+       "action": "option",
+       "option": "go"
+      },
+      "id": 3,
+      "kind": "decision",
+      "project": "",
+      "rev": "<rev>",
+      "session_id": "",
+      "summary": "Decision: Go",
+      "task_key": "A1",
+      "ts": "<ts>"
+     },
+     {
+      "agent_id": null,
+      "cwd": "",
+      "data": {
+       "options": [
+        "go"
+       ]
+      },
+      "id": 2,
+      "kind": "brief",
+      "project": "",
+      "rev": "<rev>",
+      "session_id": "",
+      "summary": "review ready: A1",
+      "task_key": "A1",
+      "ts": "<ts>"
+     },
+     {
+      "agent_id": null,
+      "cwd": "",
+      "data": {},
+      "id": 1,
+      "kind": "status",
+      "project": "",
+      "rev": "<rev>",
+      "session_id": "",
+      "summary": "A1 created (planned): api calls are not filtered",
+      "task_key": "A1",
+      "ts": "<ts>"
+     }
+    ],
+    "failed": {},
+    "tasks": [
+     {
+      "archived": 0,
+      "branch": "",
+      "brief": "## A1\nok?",
+      "brief_at": "<ts>",
+      "brief_cwd": "inside:",
+      "brief_options": [
+       {
+        "hint": "",
+        "id": "go",
+        "label": "Go",
+        "primary": false
+       }
+      ],
+      "children": [],
+      "created_at": "<ts>",
+      "decision": {
+       "created_at": "<ts>",
+       "delivered_at": "<ts>",
+       "done_at": null,
+       "id": 1,
+       "label": "Go",
+       "option_id": "go",
+       "status": "delivered",
+       "text": ""
+      },
+      "done_at": null,
+      "end_at": null,
+      "key": "A1",
+      "last_event_at": "<ts>",
+      "mr_url": "",
+      "needs_you": false,
+      "next": "Acting on: Go",
+      "notes": [
+       {
+        "text": "Decision: Go",
+        "ts": "<ts>"
+       }
+      ],
+      "parent": null,
+      "parent_title": null,
+      "progress": null,
+      "project": "",
+      "rev": "<rev>",
+      "status": "building",
+      "title": "api calls are not filtered",
+      "updated_at": "<ts>",
+      "waiting": "agent",
+      "worktree": "/work/elsewhere/wt"
+     }
+    ]
+   },
+   "content_type": "application/json; charset=utf-8",
+   "headers": {
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+   },
+   "request": "GET /api/state",
+   "status": 200,
+   "step": "017-state-end"
+  },
+  {
+   "args": "task A2 --title cli is not filtered --worktree /work/elsewhere/wt2",
+   "exit": 0,
+   "stderr": "",
+   "stdin": null,
+   "stdout": {
+    "archived": 0,
+    "branch": "",
+    "brief": "",
+    "brief_at": null,
+    "brief_cwd": "",
+    "brief_options": [],
+    "children": [],
+    "created_at": "<ts>",
+    "decision": null,
+    "done_at": null,
+    "end_at": null,
+    "key": "A2",
+    "last_event_at": "<ts>",
+    "mr_url": "",
+    "needs_you": false,
+    "next": "",
+    "notes": [],
+    "parent": null,
+    "parent_title": null,
+    "progress": null,
+    "project": "",
+    "rev": "<rev>",
+    "status": "planned",
+    "title": "cli is not filtered",
+    "updated_at": "<ts>",
+    "waiting": "",
+    "worktree": "/work/elsewhere/wt2"
+   },
+   "step": "018-cli-task-outside-folder"
+  }
+ ]
+}
