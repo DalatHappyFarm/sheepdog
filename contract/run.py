@@ -26,7 +26,7 @@ import urllib.parse
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-from harness import ROOT, TOKEN, Server  # noqa: E402
+from harness import LOCAL_OFF, ROOT, TOKEN, Server  # noqa: E402
 import fixture  # noqa: E402
 
 TS_KEYS = {"ts", "created_at", "updated_at", "started_at", "ended_at", "last_event_at", "done_at", "brief_at", "delivered_at", "end_at"}
@@ -94,7 +94,8 @@ class Rec:
         else:
             parsed = data.decode("utf-8", "replace")
             shown = parsed
-        step = {"step": self.name(name), "request": "%s %s" % (method, path), "status": r.status, "content_type": ct,
+        # the zone shift (LOCAL_OFF) is not part of the contract: it is recorded as off=0
+        step = {"step": self.name(name), "request": ("%s %s" % (method, path)).replace("off=%d" % LOCAL_OFF, "off=0"), "status": r.status, "content_type": ct,
                 "headers": {k: r.getheader(k) for k in KEEP_HEADERS if r.getheader(k) is not None}, "body": shown}
         self.http_steps.append(step)
         return r.status, parsed
@@ -107,7 +108,7 @@ class Rec:
 
     # -- CLI
     def cli_env(self):
-        return dict(os.environ, SHEEPDOG_URL=self.srv.url, SHEEPDOG_TOKEN=TOKEN, TZ="UTC")
+        return dict(os.environ, SHEEPDOG_URL=self.srv.url, SHEEPDOG_TOKEN=TOKEN, TZ="UTC", PWD="/work/cli")
 
     def cli(self, name, args, stdin=None):
         p = subprocess.run(self.cli_cmd + args, env=self.cli_env(), input=stdin, capture_output=True, text=True, timeout=60)
@@ -137,12 +138,12 @@ def scenario(r):
     r.get("root-no-token-plain", "/", auth=False)
     r.get("state-no-token", "/api/state", auth=False)
     r.get("state-bad-token", "/api/state", token="nope")
-    r.get("standup-lowercase-bearer", "/api/standup?off=0", auth=False, hdr={"Authorization": "bearer " + TOKEN})
+    r.get("standup-lowercase-bearer", "/api/standup?off=%d" % LOCAL_OFF, auth=False, hdr={"Authorization": "bearer " + TOKEN})
     r.get("token-query-signs-in", "/?token=" + TOKEN, auth=False)
     r.get("token-query-wrong", "/?token=wrong", auth=False)
     r.get("token-query-wrong-html", "/?token=wrong", auth=False, hdr={"Accept": "text/html"}, page="login.html")
-    r.get("cookie-ok", "/api/standup?off=0", auth=False, hdr={"Cookie": "other=1; board_token=" + urllib.parse.quote(TOKEN)})
-    r.get("cookie-bad", "/api/standup?off=0", auth=False, hdr={"Cookie": "board_token=wrong"})
+    r.get("cookie-ok", "/api/standup?off=%d" % LOCAL_OFF, auth=False, hdr={"Cookie": "other=1; board_token=" + urllib.parse.quote(TOKEN)})
+    r.get("cookie-bad", "/api/standup?off=%d" % LOCAL_OFF, auth=False, hdr={"Cookie": "board_token=wrong"})
     r.post("post-no-token", "/api/task", {"key": "X"}, auth=False)
     r.post("post-unknown-no-token", "/api/nope", auth=False)
     r.get("architecture", "/architecture", page="architecture.html")
@@ -166,7 +167,7 @@ def scenario(r):
     r.get("state-empty-delta", "/api/state?since=%d" % cursor)
     r.get("state-since-garbage", "/api/state?since=abc")
     r.get("state-since-negative", "/api/state?since=-5")
-    r.get("standup-utc", "/api/standup?off=0")
+    r.get("standup-utc", "/api/standup?off=%d" % LOCAL_OFF)
     r.get("standup-default-tz", "/api/standup")
     r.get("standup-garbage-off", "/api/standup?off=abc")
     r.get("events-f3", "/api/task/F3/events")
@@ -332,7 +333,7 @@ def scenario(r):
     # ---------------------------------------------------------------- the state after all that
     _, st2 = r.get("state-delta-since-first-cursor", "/api/state?since=%d" % cursor)
     r.get("state-full-end", "/api/state")
-    r.get("standup-end", "/api/standup?off=0")
+    r.get("standup-end", "/api/standup?off=%d" % LOCAL_OFF)
     r.get("architecture-end", "/architecture")
 
     # ---------------------------------------------------------------- the CLI (client side of the same routes)
@@ -507,7 +508,7 @@ def privacy_stage(cmd, tmp, cli_cmd):
         r.post("decision-for-the-waiter", "/api/task/P1/decision", {"action": "option", "option": "go"})
         r.get("wait-for-the-root", "/api/decisions/wait?cwd=%s&timeout=0" % a)
         r.get("state", "/api/state")
-        r.get("standup", "/api/standup?off=0")
+        r.get("standup", "/api/standup?off=%d" % LOCAL_OFF)
         r.get("events-p1", "/api/task/P1/events")
         r.get("board-page", "/", page="board.html")
         r.get("architecture-page", "/architecture", page="architecture.html")
@@ -542,9 +543,9 @@ def migrate_stage(cmd, tmp, cli_cmd):
 
 
 def run_all(cmd, cli_cmd, tmp):
-    day0 = int(time.time()) // 86400
+    day0 = (int(time.time()) + LOCAL_OFF) // 86400
     fx = os.path.join(tmp, "fixture.db")
-    fixture.build(fx)
+    fixture.build(fx, off=LOCAL_OFF)
     db = os.path.join(tmp, "board.db")
     shutil.copy(fx, db)
     srv = Server(cmd, db)
@@ -558,8 +559,8 @@ def run_all(cmd, cli_cmd, tmp):
     mig, d3 = migrate_stage(cmd, tmp, cli_cmd)
     alw, d4 = allow_stage(cmd, tmp, cli_cmd)
     prv, d5 = privacy_stage(cmd, tmp, cli_cmd)
-    if int(time.time()) // 86400 != day0:
-        sys.exit("the UTC date changed during the run (standup depends on it); run again")
+    if (int(time.time()) + LOCAL_OFF) // 86400 != day0:
+        sys.exit("the local date changed during the run (standup depends on it); run again")
     return {"http.json": r.http_steps, "cli.json": r.cli_steps, "db.json": dump_db(db), "alt-server.json": alt, "migrate.json": mig, "allow.json": alw, "privacy.json": prv}, diffs + d2 + d3 + d4 + d5
 
 

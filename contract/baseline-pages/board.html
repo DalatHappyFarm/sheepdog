@@ -546,7 +546,8 @@ async function decide(k,body,label){
   else if(ok)toast('Copied - paste it in the terminal');
   else toast('Copy failed. Select and copy: '+line,1,20000);
   render();if(sel===k){paint();if(queue.includes(k))setTimeout(()=>{if(sel!==k)return;const q=queue,n=q.slice(q.indexOf(k)+1).find(x=>tasks[x]&&tasks[x].brief&&!decided(tasks[x]));if(n)openPanel(n,q);else{closePanel();toast('All reviews done')}},1200)}loop()}
-const decided=t=>t.decision&&t.decision.created_at>=(t.brief_at||0)?t.decision:null;
+const decided=t=>t.decision&&t.decision.created_at>=(t.brief?t.brief_at||0:t.updated_at||0)?t.decision:null;
+const rvOn=t=>!!(t&&(t.brief||t.needs_you||decided(t))); // a needs-you task with no review card still gets the Reply box
 function openDlg(o){const a=document.activeElement;dback=dopen?dback:(a&&a.id)||'';dopen=true;const d=$('dlg');d.style.setProperty('--w',(o.w||400)+'px');
   d.innerHTML='<h2 id="d-title">'+o.title+'</h2>'+(o.body?'<p>'+o.body+'</p>':'')+(o.html||'')+'<div class="da"><button type="button" class="bt" id="dx">'+(o.cancel||'Cancel')+'</button>'+(o.ok?'<button type="button" class="bt '+(o.ok.c||'p')+'" id="dok">'+o.ok.label+'</button>':'')+'</div>';
   $('dx').onclick=closeDlg;if(o.ok)$('dok').onclick=o.ok.fn;$('dbd').hidden=d.hidden=false;$('dbd').onclick=closeDlg;($(o.focus||(o.ok?'dok':'dx'))).focus()}
@@ -600,7 +601,7 @@ document.addEventListener('keydown',e=>{
   if(typing||e.metaKey||e.ctrlKey||e.altKey||dopen)return;
   if(e.key==='/'){e.preventDefault();openSearch();return}
   if(e.key==='?'){e.preventDefault();help();return}
-  if(sel){const t=tasks[sel],k=e.key.toLowerCase(),b=t&&t.brief&&ptab==='rv'?$('rv-opts').querySelectorAll('button'):[];
+  if(sel){const t=tasks[sel],k=e.key.toLowerCase(),b=rvOn(t)&&ptab==='rv'?$('rv-opts').querySelectorAll('button'):[];
     if(k==='j'||k==='k')qnav(k==='j'?1:-1);
     else if(b.length&&/^[1-5r]$/.test(k)){const x=k==='r'?$('rv-rb'):b[+k-1];if(x&&!x.disabled&&(k==='r'||x.dataset.opt)){e.preventDefault();x.click()}}
     return}
@@ -638,7 +639,7 @@ $('rv-md').onchange=e=>{if(e.target.type!=='checkbox')return;ls('ck:'+curCk,JSON
 function ckCount(){const a=[...$('rv-md').querySelectorAll('input')],n=$('ckn');if(n)n.textContent=a.length?a.filter(x=>x.checked).length+' of '+a.length+' checked':''}
 $('pl').onclick=e=>{if(e.target.closest('#cwt')&&tasks[sel])copy(tasks[sel].worktree,'Path copied')};
 const kidsOf=t=>t&&t.children&&t.children.length;
-function ptabApply(){const t=tasks[sel],b=!!(t&&t.brief),c=!!kidsOf(t);if(ptab==='rv'&&!b||ptab==='st'&&!c)ptab=c?'st':'dt';$('ptb').hidden=!(b||c);$('ptab-rv').hidden=!b;$('ptab-st').hidden=!c;
+function ptabApply(){const t=tasks[sel],b=rvOn(t),c=!!kidsOf(t);if(ptab==='rv'&&!b||ptab==='st'&&!c)ptab=c?'st':'dt';$('ptb').hidden=!(b||c);$('ptab-rv').hidden=!b;$('ptab-st').hidden=!c;
   document.querySelectorAll('#ptb [role=tab]').forEach(x=>{const on=x.dataset.pt===ptab;x.setAttribute('aria-selected',on);x.tabIndex=on?0:-1});$('pv-rev').hidden=ptab!=='rv';$('pv-st').hidden=ptab!=='st';$('pv-det').hidden=ptab!=='dt';$('pdb').hidden=!(b&&ptab==='rv')}
 $('ptb').onclick=e=>{const x=e.target.closest('[data-pt]');if(x){ptab=x.dataset.pt;ptabApply();$('pbody').scrollTop=0}};
 $('ptb').onkeydown=e=>{if(/^(ArrowLeft|ArrowRight|Home|End)$/.test(e.key)){e.preventDefault();const v=[...document.querySelectorAll('#ptb [role=tab]')].filter(x=>!x.hidden).map(x=>x.dataset.pt),i=v.indexOf(ptab);
@@ -651,7 +652,7 @@ $('pc').onclick=()=>closePanel();$('bd').onclick=()=>xid!==null?closeDrawer():cl
 function openPanel(k,q,op,deepLink){const t=tasks[k];if(!t)return;if(xid!==null)closeDrawer(1);
   if(!sel){const a=document.activeElement;opener=op||(a&&a.id&&a!==document.body?a.id:'t-'+k);document.body.classList.add('dlg-open');if(!deepLink){history.pushState(null,'','#'+encodeURIComponent(k));pushed=true}}
   else history.replaceState(null,'','#'+encodeURIComponent(k));
-  sel=k;queue=q||[];pr={open:0};ptab=kidsOf(t)?'st':t.brief?'rv':'dt';dr={status:t.status,waiting:t.waiting,next:t.next};tlAll=false;pev=[];$('pn').value='';$('pbody').scrollTop=0;
+  sel=k;queue=q||[];pr={open:0};ptab=kidsOf(t)?'st':rvOn(t)?'rv':'dt';dr={status:t.status,waiting:t.waiting,next:t.next};tlAll=false;pev=[];$('pn').value='';$('pbody').scrollTop=0;
   $('panel').hidden=$('bd').hidden=false;setEdit();paint();loadPanel();render();setTimeout(()=>$('pc').focus(),30)}
 function hide(){const k=sel;sel=null;queue=[];$('panel').hidden=$('bd').hidden=true;document.body.classList.remove('dlg-open');render();const o=$(opener)||$('t-'+k);if(o)o.focus({preventScroll:true})}
 function closePanel(){if(!sel)return;if(pushed){pushed=false;history.back()}else{history.replaceState(null,'',location.pathname+location.search);hide()}}
@@ -669,9 +670,11 @@ function paint(){const k=sel,t=tasks[k];if(!t)return;
         '<button type="button" class="bt'+(x.needs_you?' p':'')+'" data-k="'+esc(x.key)+'">'+(x.brief?'Open review':'Open task')+'</button></div>'}).join(''))}
   put('pl',pch(t)+(m?mrc(m):'')+(t.branch?'<span class="bg br" title="Branch">'+esc(t.branch)+'</span>':'')+(t.worktree?'<button type="button" class="bt" id="cwt">'+ic('copy',14)+'Copy worktree path</button>':''));
   const pq=queue.indexOf(k);$('pqw').hidden=!(pq>=0&&queue.length>1);$('pq').textContent='Review '+(pq+1)+' of '+queue.length;
-  if(t.brief){const op=(t.brief_options||[]).slice().sort((a,b)=>!!b.primary-!!a.primary),d=decided(t);
-    const ckk=k+':'+t.brief_at;if(ckk!==curCk){curCk=ckk;try{ck0=JSON.parse(ls('ck:'+ckk)||'[]')}catch(e){ck0=[]}}
-    $('rv-at').textContent='Review posted '+when(t.brief_at);put('rv-md',md(t.brief,ck0));ckCount();
+  if(rvOn(t)){const op=(t.brief_options||[]).slice().sort((a,b)=>!!b.primary-!!a.primary),d=decided(t);
+    if(t.brief){const ckk=k+':'+t.brief_at;if(ckk!==curCk){curCk=ckk;try{ck0=JSON.parse(ls('ck:'+ckk)||'[]')}catch(e){ck0=[]}}
+      $('rv-at').textContent='Review posted '+when(t.brief_at);put('rv-md',md(t.brief,ck0))}
+    else{$('rv-at').textContent='';put('rv-md','<p>Claude posted no review card for this task. Reply to tell it what to do.</p>')}
+    ckCount();
     put('rv-opts',op.map((o,i)=>'<button type="button" class="bt ob'+(o.primary?' p':'')+'" data-opt="'+esc(o.id)+'" data-lb="'+esc(o.label)+'"'+(d?' disabled':'')+'><span class="kh">'+(i+1)+'</span><span class="ol"><span>'+esc(o.label)+'</span>'+(o.hint?'<small>'+esc(o.hint)+'</small>':'')+'</span></button>').join('')+
       '<button type="button" class="bt ob" id="rv-rb" aria-expanded="'+!!pr.open+'"'+(d?' disabled':'')+'><span class="kh">R</span>Reply</button>');
     put('rv-reply',pr.open&&!d?'<textarea id="rv-rt" rows="3" aria-label="Reply to Claude" placeholder="Reply. Ctrl+Enter sends, Esc cancels."></textarea><div class="ar"><button type="button" class="bt p" id="rv-rs">Send reply</button><button type="button" class="bt g0" id="rv-rx">Cancel</button><span class="sm" id="rv-cc" role="status"></span></div>':'');

@@ -19,12 +19,19 @@ def free_port():
         return s.getsockname()[1]
 
 
+# Standup counts "today" from local midnight and the fixture goes back 4 h, so a run just after midnight would lose tasks.
+# The servers run in a zone whose local time is about noon right now, and the runner passes the same offset as ?off=.
+_H = 12 - int(time.time() % 86400 // 3600)
+LOCAL_OFF = (_H - 24 if _H > 12 else _H) * 3600
+TZNAME = "UTC" if LOCAL_OFF == 0 else "Etc/GMT%+d" % (-LOCAL_OFF // 3600)
+
+
 class Server:
     def __init__(self, cmd, db, token=TOKEN, no_auth=False, env=None, port=None, args=()):
         self.port = port or free_port()
         self.url = "http://127.0.0.1:%d" % self.port
         self.db = db
-        e = dict(os.environ, TZ="UTC", **(env or {}))
+        e = dict(os.environ, TZ=TZNAME, **(env or {}))
         e.pop("SHEEPDOG_TOKEN", None)
         e.pop("BOARD_TOKEN", None)
         if token and not no_auth:

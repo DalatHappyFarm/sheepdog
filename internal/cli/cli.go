@@ -218,6 +218,7 @@ func run(args []string) error {
 		}
 		pl := payload(p, [][2]string{{"title", "title"}, {"status", "status"}, {"project", "project"}, {"branch", "branch"}, {"worktree", "worktree"}, {"mr", "mr_url"}, {"note", "note"}, {"next", "next"}, {"waiting", "waiting"}, {"parent", "parent"}})
 		pl["key"] = p.pos[0]
+		pl["cwd"] = defaultCwd() // lets a reply on a task with no review card find this folder's `sheepdog wait`
 		return postAndPrint("/api/task", pl)
 	case "agent":
 		p, err := parseArgs(rest, spec{flags: map[string]bool{"task": true, "name": true, "model": true, "status": true}, choices: map[string][]string{"status": agentStatuses}})

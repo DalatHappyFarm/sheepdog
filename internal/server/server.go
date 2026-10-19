@@ -44,7 +44,7 @@ var routes = []route{
 	{"POST", `/api/hook`, "hook", "the raw Claude Code hook payload; empty reply, or the hook JSON when decisions wait", nil},
 	{"POST", `/api/task`, "task", "create or update a task", nil},
 	{"POST", `/api/task/(?P<key>[^/]+)/brief`, "brief", "post a review card (markdown + option buttons)", nil},
-	{"POST", `/api/task/(?P<key>[^/]+)/decision`, "decision", "the developer's answer: option, reply or approve", nil},
+	{"POST", `/api/task/(?P<key>[^/]+)/decision`, "decision", "the developer's answer: option, reply or approve (a reply needs no review card; the others do)", nil},
 	{"POST", `/api/decision/(?P<id>\d+)/done`, "done", "Claude acknowledges a decision", nil},
 	{"POST", `/api/agent`, "agent", "create or update an agent row", nil},
 	{"POST", `/api/archive`, "archive", "hide a task from the board", nil},

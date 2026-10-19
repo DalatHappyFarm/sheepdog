@@ -586,6 +586,7 @@ func TestFailureOutputStored(t *testing.T) {
 func TestDecisionEndpoint(t *testing.T) {
 	e := newEnv(t)
 	e.cli("task", "D1", "--title", "decide me", "--status", "review", "--waiting", "me", "--next", "Check http://localhost:3000/x")
+	e.post("/api/task/D1/brief", obj{"brief": "## r"})
 	p := "/api/task/D1/decision"
 	for tok, want := range map[string]int{"": 401, "wrong": 401} {
 		if st, _ := e.postTok(p, obj{"action": "approve"}, tok); st != want {
@@ -779,6 +780,45 @@ func TestLongReplyIsStoredWholeOrRefused(t *testing.T) {
 func (e *env) runHook(p obj) string {
 	b, _ := json.Marshal(p)
 	return hookViaCLI(e.t, string(b))
+}
+
+func TestReplyWithoutBrief(t *testing.T) {
+	e := newEnv(t)
+	e.cli("task", "N1", "--title", "no card", "--status", "blocked", "--waiting", "me", "--next", "need an answer", "--worktree", "/work/n1")
+	eqv(t, e.db.GetTask("N1")["needs_you"], true, "needs you")
+	p := "/api/task/N1/decision"
+	for _, body := range []obj{{"action": "approve"}, {"action": "option", "option": "go"}} {
+		if st, _ := e.post(p, body); st != 400 {
+			t.Errorf("%v without a brief: %d", body, st)
+		}
+	}
+	eqv(t, e.db.Q("SELECT COUNT(*) n FROM decisions WHERE task_key='N1'")[0]["n"], 0, "refused calls store nothing")
+	st, tk := e.post(p, obj{"action": "reply", "text": "use the flag"})
+	eqv(t, []any{st, tk["waiting"], tk["status"], tk["needs_you"]}, []any{200, "agent", "building", false}, "reply")
+	_, got := e.apiGet("/api/decisions/wait?cwd=/work/n1&timeout=0")
+	g := asList(got)
+	if len(g) != 1 || asObj(g[0])["label"] != "Reply" || asObj(g[0])["text"] != "use the flag" {
+		t.Fatalf("waiter got %v", got)
+	}
+	// no worktree: the folder `sheepdog task` ran in carries it, and an empty or relative value never overwrites that
+	e.post("/api/task", obj{"key": "N2", "title": "no card", "status": "blocked", "waiting": "me", "cwd": "/work/root"})
+	e.post("/api/task", obj{"key": "N2", "cwd": ""})
+	e.post("/api/task", obj{"key": "N2", "cwd": "rel"})
+	if _, has := e.db.GetTask("N2")["task_cwd"]; has {
+		t.Error("task_cwd is not part of the API task")
+	}
+	if st, _ := e.post("/api/task/N2/decision", obj{"action": "reply", "text": "hi"}); st != 200 {
+		t.Errorf("reply: %d", st)
+	}
+	_, got = e.apiGet("/api/decisions/wait?cwd=/work/other&timeout=0")
+	eqv(t, len(asList(got)), 0, "another folder")
+	_, got = e.apiGet("/api/decisions/wait?cwd=/work/root&timeout=0")
+	eqv(t, len(asList(got)), 1, "the folder the task was set from")
+	// the CLI sends its own folder
+	e.cli("task", "N3", "--title", "via cli", "--status", "blocked", "--waiting", "me")
+	if r := e.db.Q("SELECT task_cwd FROM tasks WHERE key='N3'")[0]["task_cwd"]; r == nil || r == "" {
+		t.Error("sheepdog task stored no folder")
+	}
 }
 
 func TestDecisionExactlyOnceAndScoping(t *testing.T) {
@@ -1047,7 +1087,7 @@ func TestArchitecturePageCoversRoutesTablesAndEvents(t *testing.T) {
 			t.Errorf("event %s missing", ev)
 		}
 	}
-	if !strings.Contains(page, "board page 89.1 KB of the 90 KB budget") || !strings.Contains(page, "page polls /api/state every 3 s") {
+	if !strings.Contains(page, "board page 89.4 KB of the 90 KB budget") || !strings.Contains(page, "page polls /api/state every 3 s") {
 		t.Error("numbers")
 	}
 }
@@ -1232,6 +1272,7 @@ func TestNothingIdentifyingIsStoredOrServed(t *testing.T) {
 	e := newEnv(t)
 	e.db.SetScrub(fakeScrubber())
 	home, a, tmp := "/Users/jdoe", "/Users/jdoe/dev/alpha", "/private/var/folders/xy/abc123/T"
+	t.Setenv("PWD", a+"/cli") // the folder `sheepdog task` sends: stored rewritten like every other folder
 	e.cli("task", "P1", "--title", "fix "+a+"/x.go for jdoe", "--project", "jdoes-mbp", "--branch", "jdoe/fix", "--worktree", a+"/wt",
 		"--next", "ask jdoe@example.com about "+home+"/.ssh", "--note", "ran in "+tmp+"/run1 on jdoes-mbp.local")
 	e.cli("agent", "ag-1", "--task", "P1", "--name", "jdoe's helper in "+a, "--model", "model-jdoe")

@@ -21,14 +21,14 @@ OPTS = [{"id": "merge", "label": "Approve and merge", "hint": "ships it", "prima
         {"id": "rework", "label": "Send back", "hint": "needs changes"}]
 
 
-def prev_workday_noon(now):
-    p = now // 86400 - 1
+def prev_workday_noon(now, off=0):
+    p = (now + off) // 86400 - 1
     while (p + 3) % 7 >= 5:  # same rule as DB.standup: epoch day 0 was a Thursday, skip Sat/Sun
         p -= 1
-    return p * 86400 + 43200
+    return p * 86400 + 43200 - off
 
 
-def build(path, now=None):
+def build(path, now=None, off=0):
     now = int(now or time.time())
     clock = [now]
     real = time.time
@@ -36,7 +36,7 @@ def build(path, now=None):
     at = lambda secs_ago: clock.__setitem__(0, now - secs_ago)
     db = sheepdog.DB(path)
     try:
-        clock[0] = prev_workday_noon(now)
+        clock[0] = prev_workday_noon(now, off)
         db.task_upsert({"key": "F6", "title": "Finished last working day", "status": "done", "project": "alpha", "mr_url": "https://gitlab.example.com/g/p/-/merge_requests/7"})
         at(4 * 3600)
         db.task_upsert({"key": "F1", "title": "Planned work", "project": "alpha", "next": "Pick it up", "waiting": "none", "note": "first planning note"})

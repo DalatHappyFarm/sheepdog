@@ -91,6 +91,7 @@
      "project": "",
      "rev": "<rev>",
      "status": "planned",
+     "task_cwd": null,
      "title": "no auth",
      "updated_at": "<ts>",
      "waiting": "",
@@ -114,6 +115,7 @@
      "project": "",
      "rev": "<rev>",
      "status": "building",
+     "task_cwd": null,
      "title": "alt",
      "updated_at": "<ts>",
      "waiting": "",
@@ -134,7 +136,7 @@
    "table decisions": "CREATE TABLE decisions( id INTEGER PRIMARY KEY AUTOINCREMENT, task_key TEXT NOT NULL, option_id TEXT NOT NULL DEFAULT '', label TEXT NOT NULL DEFAULT '', text TEXT NOT NULL DEFAULT '', cwd TEXT NOT NULL DEFAULT '', created_at INTEGER, status TEXT NOT NULL DEFAULT 'pending', delivered_at INTEGER, delivered_to TEXT, done_at INTEGER, rev INTEGER NOT NULL DEFAULT 0)",
    "table events": "CREATE TABLE events( id INTEGER PRIMARY KEY AUTOINCREMENT, ts INTEGER NOT NULL, session_id TEXT, cwd TEXT, project TEXT, task_key TEXT, agent_id TEXT, kind TEXT NOT NULL, summary TEXT NOT NULL DEFAULT '', data TEXT NOT NULL DEFAULT '{}', rev INTEGER NOT NULL DEFAULT 0)",
    "table sqlite_sequence": "CREATE TABLE sqlite_sequence(name,seq)",
-   "table tasks": "CREATE TABLE tasks( key TEXT PRIMARY KEY, title TEXT NOT NULL DEFAULT '', status TEXT NOT NULL DEFAULT 'planned', project TEXT NOT NULL DEFAULT '', branch TEXT NOT NULL DEFAULT '', worktree TEXT NOT NULL DEFAULT '', mr_url TEXT NOT NULL DEFAULT '', notes TEXT NOT NULL DEFAULT '[]', created_at INTEGER, updated_at INTEGER, last_event_at INTEGER, archived INTEGER NOT NULL DEFAULT 0, rev INTEGER NOT NULL DEFAULT 0, next TEXT NOT NULL DEFAULT '', waiting TEXT NOT NULL DEFAULT '', done_at INTEGER, brief TEXT NOT NULL DEFAULT '', brief_options TEXT NOT NULL DEFAULT '[]', brief_at INTEGER, brief_cwd TEXT NOT NULL DEFAULT '', parent TEXT)"
+   "table tasks": "CREATE TABLE tasks( key TEXT PRIMARY KEY, title TEXT NOT NULL DEFAULT '', status TEXT NOT NULL DEFAULT 'planned', project TEXT NOT NULL DEFAULT '', branch TEXT NOT NULL DEFAULT '', worktree TEXT NOT NULL DEFAULT '', mr_url TEXT NOT NULL DEFAULT '', notes TEXT NOT NULL DEFAULT '[]', created_at INTEGER, updated_at INTEGER, last_event_at INTEGER, archived INTEGER NOT NULL DEFAULT 0, rev INTEGER NOT NULL DEFAULT 0, next TEXT NOT NULL DEFAULT '', waiting TEXT NOT NULL DEFAULT '', done_at INTEGER, brief TEXT NOT NULL DEFAULT '', brief_options TEXT NOT NULL DEFAULT '[]', brief_at INTEGER, brief_cwd TEXT NOT NULL DEFAULT '', parent TEXT, task_cwd TEXT)"
   }
  },
  "steps": [
@@ -157,8 +159,8 @@
   },
   {
    "body": {
-    "bytes": 89071,
-    "sha256": "e8dcdb2b7d856b086a7d6e10a657648cf22cbfaa21c8e65e319540366d1d8a6e"
+    "bytes": 89357,
+    "sha256": "fbe719be733130f5cc9d7294277d80afb195d921dc0562b2b310047f3ada04ba"
    },
    "content_type": "text/html; charset=utf-8",
    "headers": {
@@ -171,8 +173,8 @@
   },
   {
    "body": {
-    "bytes": 89071,
-    "sha256": "e8dcdb2b7d856b086a7d6e10a657648cf22cbfaa21c8e65e319540366d1d8a6e"
+    "bytes": 89357,
+    "sha256": "fbe719be733130f5cc9d7294277d80afb195d921dc0562b2b310047f3ada04ba"
    },
    "content_type": "text/html; charset=utf-8",
    "headers": {

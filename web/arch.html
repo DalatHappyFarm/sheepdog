@@ -35,7 +35,7 @@ marker path{fill:var(--t2)}
 <ol>
 <li>The orchestrator posts a review card: <code>sheepdog brief KEY --file review.md --option ...</code> (waiting becomes you).</li>
 <li>You open it on the board. The page already has it, from its 3 s poll of <code>/api/state</code>.</li>
-<li>You click an option or reply: the server writes a pending row in <code>decisions</code> and a timeline note, and hands the task back to the agent.</li>
+<li>You click an option or reply: the server writes a pending row in <code>decisions</code> and a timeline note, and hands the task back to the agent. A task with no review card takes a reply only; it is delivered to the task's worktree folder.</li>
 <li>Exactly one of <code>sheepdog wait</code> or the next <code>UserPromptSubmit</code> hook in that folder claims it (status delivered) and Claude sees the text.</li>
 <li>Claude acts and runs <code>sheepdog done ID</code>; the page shows Done.</li></ol>
 <h2>Parents and sub-tasks</h2>

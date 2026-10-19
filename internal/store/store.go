@@ -3,6 +3,7 @@
 package store
 
 import (
+	"cmp"
 	"context"
 	"database/sql"
 	"encoding/json"
@@ -146,7 +147,7 @@ func Open(path string) (*DB, error) {
 	}
 	for _, c := range [][2]string{{"next", "TEXT NOT NULL DEFAULT ''"}, {"waiting", "TEXT NOT NULL DEFAULT ''"}, {"done_at", "INTEGER"},
 		{"brief", "TEXT NOT NULL DEFAULT ''"}, {"brief_options", "TEXT NOT NULL DEFAULT '[]'"}, {"brief_at", "INTEGER"},
-		{"brief_cwd", "TEXT NOT NULL DEFAULT ''"}, {"parent", "TEXT"}} {
+		{"brief_cwd", "TEXT NOT NULL DEFAULT ''"}, {"parent", "TEXT"}, {"task_cwd", "TEXT"}} {
 		if !have[c[0]] { // old DB: add the column, backfill done_at from the last update
 			d.x(fmt.Sprintf("ALTER TABLE tasks ADD COLUMN %s %s", c[0], c[1]))
 			if c[0] == "done_at" {
@@ -504,6 +505,7 @@ func isNull(v any) bool { return v == nil }
 
 // taskOut turns a tasks row into what the API sends: parsed notes and options, the latest decision, sub-task roll-up.
 func taskOut(ex exe, t Row) Row {
+	delete(t, "task_cwd") // delivery plumbing, not part of the task the API shows
 	t["notes"] = parseNotes(rs(t, "notes"))
 	t["brief_options"] = parseOptions(rs(t, "brief_options"))
 	if dec := ex("SELECT id,option_id,label,text,status,created_at,delivered_at,done_at FROM decisions WHERE task_key=? ORDER BY id DESC LIMIT 1", t["key"]); len(dec) > 0 {
@@ -705,6 +707,9 @@ func (d *DB) TaskUpsert(in map[string]any) (out Row, err error) {
 	}
 	if v, ok := fget(f, "next"); ok {
 		f = fset(f, "next", Redact(v.(string)))
+	}
+	if v := pyStr(in["cwd"]); truthy(in["cwd"]) && strings.HasPrefix(v, "/") { // where the caller works: never overwritten by an empty or relative value
+		f = append(f, fv{"task_cwd", head(d.scrub.Cwd(v), 500)})
 	}
 	if isSet(in, "waiting") {
 		if !contains(append(append([]string{}, Waiting...), ""), in["waiting"]) {
@@ -909,7 +914,7 @@ func (d *DB) SetBrief(key string, in map[string]any) (Row, error) {
 }
 
 // Decide records the developer's answer to a needs-you task: a timeline note, the ball goes back to the agent, and (when the task has
-// a review brief with a cwd) a pending decision row for the Claude session that owns it. Runs nothing.
+// a review brief with a cwd, or a worktree; a reply needs neither a brief) a pending decision row for the Claude session that owns it. Runs nothing.
 func (d *DB) Decide(key string, in map[string]any) (Row, error) {
 	var out Row
 	var created bool
@@ -932,6 +937,9 @@ func (d *DB) Decide(key string, in map[string]any) (Row, error) {
 		}
 		if act == "reply" && text == "" {
 			return bad("reply needs text")
+		}
+		if act != "reply" && rs(t, "brief") == "" {
+			return bad("brief required") // options and approve answer a review card; only a reply works without one
 		}
 		ts := now()
 		oid, label, note := "", "", ""
@@ -967,12 +975,13 @@ func (d *DB) Decide(key string, in map[string]any) (Row, error) {
 			" status=CASE WHEN status='done' THEN status ELSE 'building' END,"+
 			" next=CASE WHEN status='done' THEN next ELSE ? END WHERE key=?",
 			notesJSON(notes), ts, d.bump(), "Acting on: "+what, key)
-		if act != "approve" && rs(t, "brief_cwd") != "" {
+		cwd := decisionCwd(rs(t, "brief_cwd"), rs(t, "worktree"), rs(d.q1("SELECT task_cwd FROM tasks WHERE key=?", key), "task_cwd"))
+		if act != "approve" && cwd != "" {
 			txt := ""
 			if act == "reply" {
 				txt = text
 			}
-			d.x("INSERT INTO decisions(task_key,option_id,label,text,cwd,created_at,rev) VALUES(?,?,?,?,?,?,?)", key, oid, label, txt, rs(t, "brief_cwd"), ts, d.bump())
+			d.x("INSERT INTO decisions(task_key,option_id,label,text,cwd,created_at,rev) VALUES(?,?,?,?,?,?,?)", key, oid, label, txt, cwd, ts, d.bump())
 			created = true
 		}
 		data := []KV{{"action", act}}
@@ -986,12 +995,15 @@ func (d *DB) Decide(key string, in map[string]any) (Row, error) {
 	if err != nil {
 		return nil, err
 	}
-	out["waiter"] = d.WaiterFor(rs(out, "brief_cwd"))
+	out["waiter"] = d.WaiterFor(decisionCwd(rs(out, "brief_cwd"), rs(out, "worktree"), rs(d.q1("SELECT task_cwd FROM tasks WHERE key=?", key), "task_cwd")))
 	if created {
 		d.wake()
 	}
 	return out, nil
 }
+
+// decisionCwd is the folder a decision is delivered to: the review card's, else the task's worktree, else where `sheepdog task` last ran.
+func decisionCwd(brief, worktree, task string) string { return cmp.Or(brief, worktree, task) }
 
 func (d *DB) wake() {
 	d.seenMu.Lock()

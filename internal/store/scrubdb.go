@@ -12,7 +12,7 @@ var scrubCols = []struct {
 	text       []string
 	cwd        []string
 }{
-	{"tasks", "key", []string{"title", "project", "branch", "mr_url", "next", "brief", "notes", "brief_options"}, []string{"worktree", "brief_cwd"}},
+	{"tasks", "key", []string{"title", "project", "branch", "mr_url", "next", "brief", "notes", "brief_options"}, []string{"worktree", "brief_cwd", "task_cwd"}},
 	{"agents", "id", []string{"name", "model", "type"}, nil},
 	{"events", "id", []string{"project", "summary", "data"}, []string{"cwd"}},
 	{"decisions", "id", []string{"label", "text"}, []string{"cwd"}},
