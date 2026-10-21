@@ -46,7 +46,8 @@ out=$(
 	scan "email address" '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' '@(example\.(com|org|net)|users\.noreply\.github\.com|db\.host)$' '' '^internal/store/testdata/'
 	scan "bearer token" '[Bb]earer [A-Za-z0-9._~+/=-]{20,}' '' '' '^internal/store/testdata/'
 	scan "hex secret" '(^|[^0-9A-Za-z])[0-9a-f]{40,}([^0-9A-Za-z]|$)' '' '' "$fixtures"
-	scan "base64 secret" '(^|[^0-9A-Za-z+/])[A-Za-z0-9+/]{48,}={0,2}([^0-9A-Za-z+/=]|$)' 'abcdefghijklmnopqrstuvwxyz' '' "$fixtures|^design/prototype.html$"
+	# the README diagrams carry their icon as a base64 data URI (an image in an <img> cannot load another file)
+	scan "base64 secret" '(^|[^0-9A-Za-z+/])[A-Za-z0-9+/]{48,}={0,2}([^0-9A-Za-z+/=]|$)' 'abcdefghijklmnopqrstuvwxyz' '' "$fixtures|^design/prototype.html$|^docs/diagrams/[^/]+[.]svg$"
 	# provider-shaped secrets: not even fake ones may sit in a published file as a literal (GitHub push protection and every scanner
 	# stops on them). Build such test values by concatenation, or store them with a JSON unicode escape in the first character.
 	scan "slack token" '(^|[^A-Za-z0-9])(xox[a-z]-[0-9A-Za-z-]{6,}|xapp-[0-9]-[0-9A-Za-z-]{6,})' ''
