@@ -1,0 +1,26 @@
+{
+  "title": "sheepdog: Claude Code reports events and review cards to sheepdog through hooks and the CLI; you watch and decide on the board, and your decision goes back to the agent that asked. A decision goes Needs you, waiting for Claude, Claude is on it, Done.",
+  "width": 800,
+  "sections": [
+    {
+      "label": "How it works",
+      "columns": [
+        [{"id": "claude", "title": "Claude Code", "sub": "your agents"}],
+        [{"id": "sheepdog", "title": "sheepdog", "sub": "Go · SQLite", "icon": "../../brand/icon-126.png", "icon_radius": 9, "hub": true}],
+        [{"id": "board", "title": "Board", "sub": "you, in the browser"}]
+      ],
+      "edges": [
+        {"from": "claude", "to": "sheepdog", "label": "events, cards", "under": "your decision", "both": true},
+        {"from": "sheepdog", "to": "board", "label": "watch", "under": "decide", "both": true}
+      ]
+    },
+    {
+      "label": "A decision's trip",
+      "items": [
+        {"label": "Needs you", "tone": "blue"}, {"label": "Waiting for Claude", "tone": "amber"},
+        {"label": "Claude is on it", "tone": "green"}, {"label": "Done", "tone": "grey"}
+      ],
+      "captions": ["you answer", "delivered", "marked done"]
+    }
+  ]
+}

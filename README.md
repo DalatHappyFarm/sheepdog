@@ -6,6 +6,9 @@ Your agents roam. Sheepdog brings them home.
 
 A small, self-hosted board that watches your AI coding agents and brings every decision to you.
 
+<!-- diagram source: docs/diagrams/architecture.json -->
+![sheepdog: Claude Code reports events and review cards to sheepdog through hooks and the CLI; you watch and decide on the board, and your decision goes back to the agent that asked. A decision goes Needs you, waiting for Claude, Claude is on it, Done.](docs/diagrams/architecture.svg)
+
 What it does:
 - Watches your agents through Claude Code hooks: tasks, sub-agents, failed commands and a live feed.
 - Shows review cards you answer in the browser (pick an option or write a reply).
