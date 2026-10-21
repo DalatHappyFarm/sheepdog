@@ -1,0 +1,18 @@
+name: Idea
+description: Something sheepdog could do better.
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: sheepdog watches your agents and brings their decisions to you; it does not start, stop or control them.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do
+      description: The situation and what gets in the way today.
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would help
