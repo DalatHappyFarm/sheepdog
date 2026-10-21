@@ -212,6 +212,7 @@ sheepdog brief T2 --file review.md --option 'merge|Approve and merge|ships it' -
 sheepdog wait --cwd /abs/path       # blocks until you decide on the board, prints the decision
 sheepdog done <decision-id>         # acknowledge it
 sheepdog archive T2
+sheepdog version                    # the release, or the commit a checkout was built from
 ```
 
 Statuses: planned, analysing, building, review, testing, done, blocked.
@@ -265,7 +266,7 @@ Secrets are redacted separately (tokens, passwords, keys, bearer headers).
 
 `sheepdog.py` is the original single-file implementation (Python 3, standard library only).
 It is kept as the reference: it takes the same flags and environment, uses the same database, and the contract test records its behaviour and holds the Go binary to it.
-`python3 sheepdog.py serve` works exactly like `sheepdog serve` (`purge` and `scrub` exist only in the binary), and `web/` and `brand/` must stay next to it.
+`python3 sheepdog.py serve` works exactly like `sheepdog serve` (`purge`, `scrub` and `version` exist only in the binary), and `web/` and `brand/` must stay next to it.
 
 ## Tests
 

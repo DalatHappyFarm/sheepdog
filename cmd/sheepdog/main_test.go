@@ -3,8 +3,26 @@ package main
 import (
 	"os"
 	"path/filepath"
+	"runtime/debug"
 	"testing"
 )
+
+func TestVersionOfPrefersTheReleaseThenTheCommit(t *testing.T) {
+	commit := []debug.BuildSetting{{Key: "vcs.revision", Value: "0123456789abcdef0123"}, {Key: "vcs.modified", Value: "true"}}
+	for _, c := range []struct {
+		info *debug.BuildInfo
+		want string
+	}{
+		{&debug.BuildInfo{Main: debug.Module{Version: "v0.1.0"}}, "v0.1.0"},
+		{&debug.BuildInfo{Main: debug.Module{Version: "(devel)"}, Settings: commit}, "devel 0123456789ab-dirty"},
+		{&debug.BuildInfo{Main: debug.Module{Version: "(devel)"}}, "devel"},
+		{nil, "unknown"},
+	} {
+		if got := versionOf(c.info); got != c.want {
+			t.Errorf("got %q want %q", got, c.want)
+		}
+	}
+}
 
 func TestDefaultDataDirFallsBackToTheOldFolder(t *testing.T) {
 	h := t.TempDir()

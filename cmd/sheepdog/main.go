@@ -10,6 +10,7 @@
 //	sheepdog purge --outside-allow [--allow DIR ...] [--db PATH] [--dry-run]   drop the stored events and agents of folders outside the allowlist
 //	sheepdog scrub [--db PATH] [--dry-run] [--allow DIR ...]   rewrite the paths and names already stored (stop the server first)
 //	sheepdog hook                        Claude Code hook: JSON on stdin, always exits 0
+//	sheepdog version                     the release this binary is, or the commit it was built from
 package main
 
 import (
@@ -46,11 +47,45 @@ func main() {
 	if len(os.Args) > 1 && os.Args[1] == "scrub" {
 		os.Exit(scrub(os.Args[2:]))
 	}
+	if len(os.Args) > 1 && (os.Args[1] == "version" || os.Args[1] == "--version") {
+		info, _ := debug.ReadBuildInfo()
+		fmt.Println("sheepdog", versionOf(info))
+		return
+	}
 	if len(os.Args) > 1 && (os.Args[1] == "-h" || os.Args[1] == "--help") {
-		fmt.Println("usage: sheepdog {serve,task,agent,archive,hook,brief,wait,done} ...\nEnv: SHEEPDOG_TOKEN, SHEEPDOG_URL (client, default http://127.0.0.1:8787), SHEEPDOG_DB, SHEEPDOG_TOOL_EVENTS=0 (the old BOARD_* names still work)")
+		fmt.Println("usage: sheepdog {serve,task,agent,archive,hook,brief,wait,done,version} ...\nEnv: SHEEPDOG_TOKEN, SHEEPDOG_URL (client, default http://127.0.0.1:8787), SHEEPDOG_DB, SHEEPDOG_TOOL_EVENTS=0 (the old BOARD_* names still work)")
 		return
 	}
 	os.Exit(cli.Run(os.Args[1:]))
+}
+
+// versionOf is the module version `go install ...@v0.1.0` stamps in, else the commit a checkout was built from.
+func versionOf(info *debug.BuildInfo) string {
+	if info == nil {
+		return "unknown"
+	}
+	if v := info.Main.Version; v != "" && v != "(devel)" {
+		return v
+	}
+	rev, dirty := "", false
+	for _, s := range info.Settings {
+		switch s.Key {
+		case "vcs.revision":
+			rev = s.Value
+		case "vcs.modified":
+			dirty = s.Value == "true"
+		}
+	}
+	if rev == "" {
+		return "devel"
+	}
+	if len(rev) > 12 {
+		rev = rev[:12]
+	}
+	if dirty {
+		rev += "-dirty"
+	}
+	return "devel " + rev
 }
 
 // dataDB is the default database: ~/.local/share/sheepdog/board.db, or the old agent-board folder's file when only that exists.

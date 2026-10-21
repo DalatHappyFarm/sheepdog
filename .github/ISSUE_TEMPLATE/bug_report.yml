@@ -1,0 +1,46 @@
+name: Bug report
+description: Something in sheepdog does not work the way the README says.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Remove tokens, keys and private paths from anything you paste. A security problem goes to the Security tab, never into an issue.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did, what you saw, and what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. SHEEPDOG_ALLOW=~/work/alpha sheepdog serve
+        2. Start Claude Code in ~/work/alpha
+        3. ...
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: The output of `sheepdog version`, or the commit you built.
+      placeholder: sheepdog v0.1.0
+    validations:
+      required: true
+  - type: dropdown
+    id: runtime
+    attributes:
+      label: Running
+      options:
+        - Go binary
+        - python3 sheepdog.py
+  - type: input
+    id: env
+    attributes:
+      label: Environment
+      placeholder: macOS 26, Claude Code 2.1, Chrome 141
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or screenshots
